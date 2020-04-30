@@ -21,5 +21,10 @@ username@computername:~$: cyber_visualizer
 
 ### 与可视化工具交互
 
-在运行cyber_visualizer之后，您将看到以下界面：
+* 在运行cyber_visualizer之后，您将看到以下界面：
 
+![Cyber RT 界面1](/images/cyber_visualizer1.png)
+
+* 在Cyber RT中，当数据流通过通道传输，所有通道的列表将会在***ChannelNames***中展示，如下图所示。例如，您可以看到Cyber RT的数据记录工具（cyber_recorder）在另一个终端中回放数据，***cyber_visualizer***将接收所有活动通道的信息（从回放数据中）并展示它们。
+
+![Cyber RT 界面2](/images/cyber_visualizer2.png)
