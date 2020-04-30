@@ -27,31 +27,31 @@ description: 百度阿波罗（Apollo）Cyber-RT中文版文档。由爱好者�
 
 ## 快速入门
 
-{% page-ref page="quick-start/getting-started.md" %}
+[入门](quick-start/getting-started.md)
 
-{% page-ref page="quick-start/cyber-rt-terms.md" %}
+[Cyber RT 术语](quick-start/cyber-rt-terms.md)
 
-{% page-ref page="quick-start/f.a.q..md" %}
+[常见问答](quick-start/f.a.q..md)
 
 ## 教程
 
-{% page-ref page="tutorial/cyber-rt-api-tutorial.md" %}
+[Cyber RT API 教程](tutorial/cyber-rt-api-tutorial.md)
 
-{% page-ref page="tutorial/python-api-tutorial.md" %}
+[Python API 教程](tutorial/python-api-tutorial.md)
 
-{% page-ref page="tutorial/apollo-cyber-rt-developer-tool.md" %}
+[阿波罗 Cyber RT 开发者工具](tutorial/apollo-cyber-rt-developer-tool.md)
 
 ## 高级话题
 
-{% page-ref page="advanced-topics/develop-inside-docker-environment.md" %}
+[在Docker环境中开发](advanced-topics/develop-inside-docker-environment.md)
 
-{% page-ref page="advanced-topics/migration-guide-from-apollo-ros.md" %}
+[从阿波罗ROS移植指导](advanced-topics/migration-guide-from-apollo-ros.md)
 
 ## API参考文档
 
-{% page-ref page="api-reference/cpp-api.md" %}
+[C++ API](api-reference/cpp-api.md)
 
-{% page-ref page="api-reference/python-api.md" %}
+[Python API](api-reference/python-api.md)
 
 
 
