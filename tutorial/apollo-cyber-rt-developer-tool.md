@@ -79,7 +79,7 @@ username@computername:~$: cyber_monitor
 
 通道信息默认显示为红色。但如果有数据流通过一个通道，对应该通道的一行将显示为绿色。如下图所示：
 
-![Cyber_monitor 界面](/images/cyber_visualizer4.png)
+![Cyber_monitor 界面](/images/cyber_monitor.png)
 
 ### 与cyber_monitor交互
 
