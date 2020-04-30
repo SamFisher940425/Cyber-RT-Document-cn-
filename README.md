@@ -39,6 +39,12 @@ description: 百度阿波罗（Apollo）Cyber-RT中文版文档。由爱好者�
 
 * [阿波罗 Cyber RT 开发者工具](tutorial/apollo-cyber-rt-developer-tool.md)
 
+  * [cyber_visualizer 工具](tutorial/apollo-cyber-rt-developer-tool.md#cyber_visualizer工具)
+  * [cyber_monitor 工具](tutorial/apollo-cyber-rt-developer-tool.md#cyber_monitor工具)
+  * [用cyber_monitor获得与UI界面类似的信息](tutorial/apollo-cyber-rt-developer-tool.md#用cyber_monitor获得与UI界面类似的信息)
+  * [cyber_recorder 工具](tutorial/apollo-cyber-rt-developer-tool.md#cyber_recorder工具)
+  * [rosbag_to_record 工具](tutorial/apollo-cyber-rt-developer-tool.md#rosbag_to_record工具)
+
 ## 高级话题
 
 * [在Docker环境中开发](advanced-topics/develop-inside-docker-environment.md)
