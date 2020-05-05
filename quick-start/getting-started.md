@@ -17,7 +17,7 @@
 
 请创建以下文件，假定在以下路径：
 
-***/apollo/cyber/example/common_component_example/***:
+***/apollo/cyber/example/common_component_example/***
 
   * 头文件：common_component_example.h
   * 源文件：common_component_example.cc
@@ -165,7 +165,7 @@ component_config {
 
 注：确保示例组件构建完好
 
-配置环境：
+然后配置环境：
 
 ```
 cd /apollo/cyber
