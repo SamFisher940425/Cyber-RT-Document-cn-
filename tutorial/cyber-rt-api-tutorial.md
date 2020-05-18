@@ -297,6 +297,213 @@ I1124 16:36:48.573030 14949 service.cc:43] [service] client: response: msg_id: 5
 
 ## <a id="参数（Param）服务">参数（Param）服务</a>
 
+参数服务（Parameter Service）用于节点之间共享数据，并提供基本的操作，例如`set`、`get`和`list`。参数服务（Parameter Service）基于服务（Service）实现，包含服务端（Service）和客户端（Client）。
+
+### 参数（Parameter）对象
+
+#### 支持的数据类型
+
+通过Cyber RT传递的所有参数都是`apollo::cyber::Parameter`对象，下表列出了5种支持的参数类型。
+
+|Parameter type | C++ data type | protobuf data type |
+| :--- | :--- | :--- |
+| apollo::cyber::proto::ParamType::INT | int64_t | int64
+| apollo::cyber::proto::ParamType::DOUBLE | double | double
+| apollo::cyber::proto::ParamType::BOOL | bool |bool
+| apollo::cyber::proto::ParamType::STRING | std::string | string
+| apollo::cyber::proto::ParamType::PROTOBUF | std::string | string
+| apollo::cyber::proto::ParamType::NOT_SET | - | - |
+
+除了上述五种类型外，参数（Parameter）还支持protobuf对象作为传入参数的接口。执行或序列化处理对象并将其转化为字符串（string）类型。
+
+#### 创建参数（Parameter）对象
+
+支持的结构体：
+
+```
+Parameter();  // Name is empty, type is NOT_SET 名字为空，类型是NOT_SET
+explicit Parameter(const Parameter& parameter);
+explicit Parameter(const std::string& name);  // type为NOT_SET
+Parameter(const std::string& name, const bool bool_value);
+Parameter(const std::string& name, const int int_value);
+Parameter(const std::string& name, const int64_t int_value);
+Parameter(const std::string& name, const float double_value);
+Parameter(const std::string& name, const double double_value);
+Parameter(const std::string& name, const std::string& string_value);
+Parameter(const std::string& name, const char* string_value);
+Parameter(const std::string& name, const std::string& msg_str,
+          const std::string& full_name, const std::string& proto_desc);
+Parameter(const std::string& name, const google::protobuf::Message& msg);
+```
+
+使用参数对象的样例代码：
+
+```
+Parameter a("int", 10);
+Parameter b("bool", true);
+Parameter c("double", 0.1);
+Parameter d("string", "cyber");
+Parameter e("string", std::string("cyber"));
+// proto message Chatter
+Chatter chatter;
+Parameter f("chatter", chatter);
+std::string msg_str("");
+chatter.SerializeToString(&msg_str);
+std::string msg_desc("");
+ProtobufFactory::GetDescriptorString(chatter, &msg_desc);
+Parameter g("chatter", msg_str, Chatter::descriptor()->full_name(), msg_desc);
+```
+
+#### 接口与数据读取
+
+接口列表：
+
+```
+inline ParamType type() const;
+inline std::string TypeName() const;
+inline std::string Descriptor() const;
+inline const std::string Name() const;
+inline bool AsBool() const;
+inline int64_t AsInt64() const;
+inline double AsDouble() const;
+inline const std::string AsString() const;
+std::string DebugString() const;
+template <typename Type>
+typename std::enable_if<std::is_base_of<google::protobuf::Message, Type>::value, Type>::type
+value() const;
+template <typename Type>
+typename std::enable_if<std::is_integral<Type>::value && !std::is_same<Type, bool>::value, Type>::type
+value() const;
+template <typename Type>
+typename std::enable_if<std::is_floating_point<Type>::value, Type>::type
+value() const;
+template <typename Type>
+typename std::enable_if<std::is_convertible<Type, std::string>::value, const std::string&>::type
+value() const;
+template <typename Type>
+typename std::enable_if<std::is_same<Type, bool>::value, bool>::type
+value() const;
+```
+
+如何使用这些接口的样例：
+
+```
+Parameter a("int", 10);
+a.Name();  // return int
+a.Type();  // return apollo::cyber::proto::ParamType::INT
+a.TypeName();  // return string: INT
+a.DebugString();  // return string: {name: "int", type: "INT", value: 10}
+int x = a.AsInt64();  // x = 10
+x = a.value<int64_t>();  // x = 10
+x = a.AsString();  // Undefined behavior, error log prompt
+f.TypeName();  // return string: chatter
+auto chatter = f.value<Chatter>();
+```
+
+### 参数服务端（Parameter Service）
+
+如果一个节点想要为其他节点提供参数服务（Parameter Service），那么您需要创建`ParameterService`。
+
+```
+/**
+ * @brief Construct a new ParameterService object
+ *
+ * @param node shared_ptr of the node handler
+ */
+explicit ParameterService(const std::shared_ptr<Node>& node);
+```
+
+由于所有参数都储存在参数服务对象中，因此可以在`ParameterService`中直接操作这些参数，无需发送服务请求（service request）
+
+**设置参数：**
+
+```
+/**
+ * @brief Set the Parameter object
+ *
+ * @param parameter parameter to be set
+ */
+void SetParameter(const Parameter& parameter);
+```
+
+**获取参数：**
+
+```
+/**
+ * @brief Get the Parameter object
+ *
+ * @param param_name
+ * @param parameter the pointer to store
+ * @return true
+ * @return false call service fail or timeout
+ */
+bool GetParameter(const std::string& param_name, Parameter* parameter);
+```
+
+**获取参数列表：**
+
+```
+/**
+ * @brief Get all the Parameter objects
+ *
+ * @param parameters pointer of vector to store all the parameters
+ * @return true
+ * @return false call service fail or timeout
+ */
+bool ListParameters(std::vector<Parameter>* parameters);
+```
+
+### 参数客户端（Parameter Client）
+
+如果节点想要使用其他节点的参数服务，您需要创建`ParameterClient`。
+
+```
+/**
+ * @brief Construct a new ParameterClient object
+ *
+ * @param node shared_ptr of the node handler
+ * @param service_node_name node name which provide a param services
+ */
+ParameterClient(const std::shared_ptr<Node>& node, const std::string& service_node_name);
+```
+
+您还可以执行在[参数服务端（Parameter Service）](tutorial/cyber-rt-api-tutorial.md#参数（Param）服务)下提到的`SetParameter`、`GetParameter`和`ListParameters`。
+
+### 样例
+
+```
+#include "cyber/cyber.h"
+#include "cyber/parameter/parameter_client.h"
+#include "cyber/parameter/parameter_server.h"
+
+using apollo::cyber::Parameter;
+using apollo::cyber::ParameterServer;
+using apollo::cyber::ParameterClient;
+
+int main(int argc, char** argv) {
+  apollo::cyber::Init(*argv);
+  std::shared_ptr<apollo::cyber::Node> node =
+      apollo::cyber::CreateNode("parameter");
+  auto param_server = std::make_shared<ParameterServer>(node);
+  auto param_client = std::make_shared<ParameterClient>(node, "parameter");
+  param_server->SetParameter(Parameter("int", 1));
+  Parameter parameter;
+  param_server->GetParameter("int", &parameter);
+  AINFO << "int: " << parameter.AsInt64();
+  param_client->SetParameter(Parameter("string", "test"));
+  param_client->GetParameter("string", &parameter);
+  AINFO << "string: " << parameter.AsString();
+  param_client->GetParameter("int", &parameter);
+  AINFO << "int: " << parameter.AsInt64();
+  return 0;
+}
+```
+
+#### 构建与运行
+
+  * 构建：`bazel build cyber/examples/…`
+  * 运行：`./bazel-bin/cyber/examples/paramserver`
+
 ## <a id="记录（Log）API">记录（Log）API</a>
 
 ## <a id="基于组件构建模块">基于组件构建模块</a>
