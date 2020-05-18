@@ -74,7 +74,7 @@ Cyber RT支持的消息类型包括序列化结构化数据，例如protobuf，�
 
 您只需要更改`/apollo/cyber/setup.bash`中的`CYBER_IP`：
 
-```
+```cpp
 export CYBER_IP=127.0.0.1
 ```
 

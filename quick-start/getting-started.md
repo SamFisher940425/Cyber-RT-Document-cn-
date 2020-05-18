@@ -35,7 +35,7 @@
   * 定义您自己的***Init***和***Proc***函数，***Proc***函数需要指定其输入数据类型
   * 使用***CYBER_REGISTER_COMPONENT***将您的组件类注册为全局类
 
-```
+```cpp
 #include <memory>
 #include "cyber/class_loader/class_loader.h"
 #include "cyber/component/component.h"
@@ -59,7 +59,7 @@ CYBER_REGISTER_COMPONENT(CommonComponentSample)
 
 在***common_component_example.cc***中，***Init***函数和***Proc***函数需要被实现。
 
-```
+```cpp
 #include "cyber/examples/common_component_example/common_component_example.h"
 #include "cyber/class_loader/class_loader.h"
 #include "cyber/component/component.h"
@@ -81,7 +81,7 @@ bool CommonComponentSample::Proc(const std::shared_ptr<Driver>& msg0,
 
 创建Bazel构建文件。
 
-```
+```cpp
 load("//tools:cpplint.bzl", "cpplint")
 
 package(default_visibility = ["//visibility:public"])
@@ -120,7 +120,7 @@ cpplint()
   * 库路径（component_library）：从组件类生成的库
   * 类名称（class_name）：组件的类名称
 
-```
+```cpp
 # Define all coms in DAG streaming.
 component_config {
     component_library : "/apollo/bazel-bin/cyber/examples/common_component_example/libcommon_component_example.so"
@@ -147,7 +147,7 @@ component_config {
   * 前面步骤中创建的DAG依赖文件
   * 组件中运行的进程的名称
 
-```
+```cpp
 <cyber>
     <component>
         <name>common</name>
@@ -167,7 +167,7 @@ component_config {
 
 然后配置环境：
 
-```
+```cpp
 cd /apollo/cyber
 source setup.bash
 ```

@@ -17,7 +17,7 @@
     * [节点（Node）](tutorial/cyber-rt-api-tutorial.md#节点（Node）)
     * [写入者（Writer）](tutorial/cyber-rt-api-tutorial.md#写入者（Writer）)
     * [客户端（Client）](tutorial/cyber-rt-api-tutorial.md#客户端（Client）)
-    * [参数服务器（Parameter）](tutorial/cyber-rt-api-tutorial.md#参数服务器（Parameter）)
+    * [参数服务（Parameter）](tutorial/cyber-rt-api-tutorial.md#参数服务（Parameter）)
     * [定时器（Timer）](tutorial/cyber-rt-api-tutorial.md#定时器（Timer）)
     * [时间（Time）](tutorial/cyber-rt-api-tutorial.md#时间（Time）)
     * [持续时间（Duration）](tutorial/cyber-rt-api-tutorial.md#持续时间（Duration）)
@@ -33,7 +33,7 @@ Cyber RT API示例的第一部分是理解讲话者（Talker）和倾听者（Li
 
 在Cyber RT的框架中，节点是最基本的单元，类似于句柄的角色。在创建特定的功能对象（写入者、读取者等）时，您需要基于现有的节点实例创建它。节点创建界面如下：
 
-```
+```cpp
 std::unique_ptr<Node> apollo::cyber::CreateNode(const std::string& node_name, const std::string& name_space = "");
 ```
 
@@ -52,7 +52,7 @@ std::unique_ptr<Node> apollo::cyber::CreateNode(const std::string& node_name, co
 
 写入者（Writer）是Cyber RT中用来发送消息的基本工具。每个写入者（Writer）都对应于一个具有特定数据类型的通道（Channel）。写入者（Writer）是由节点（Node）类中的`CreateWriter`接口创建的。接口如下所示：
 
-```
+```cpp
 template <typename MessageT>
    auto CreateWriter(const std::string& channel_name)
        -> std::shared_ptr<Writer<MessageT>>;
@@ -73,7 +73,7 @@ template <typename MessageT>
 
 读取者（Reader）是Cyber中用来接收信息的基本设备。读取者在创建时必须绑定到回调函数。新消息到达通道时，将调用回调函数。读取者（Reader）是由节点（Node）类的`CreateReader`接口创建的。接口如下：
 
-```
+```cpp
 template <typename MessageT>
 auto CreateReader(const std::string& channel_name, const std::function<void(const std::shared_ptr<MessageT>&)>& reader_func)
     -> std::shared_ptr<Reader<MessageT>>;
@@ -103,7 +103,7 @@ auto CreateReader(const proto::RoleAttributes& role_attr,
 
 ### 讲话者（cyber/example/talker.cc）
 
-```
+```cpp
 #include "cyber/cyber.h"
 #include "cyber/proto/chatter.pb.h"
 #include "cyber/time/rate.h"
@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
 
 ### 倾听者（cyber/examples/listener.cc）
 
-```
+```cpp
 #include "cyber/cyber.h"
 #include "cyber/proto/chatter.pb.h"
 void MessageCallback(
@@ -161,7 +161,7 @@ int main(int argc, char *argv[]) {
 
 ### Bazel 构建（BUILD）文件（cyber/samples/BUILD）
 
-```
+```cpp
 cc_binary(
     name = "talker",
     srcs = [ "talker.cc", ],
@@ -206,7 +206,7 @@ cc_binary(
 
 Cyber中所有消息都是protobuf格式。任何带有序列化/反序列化接口的protobuf消息，都可以用做服务请求和响应消息。在本例中，example.proto中的Driver被用作服务请求和响应。
 
-```
+```cpp
 // filename: examples.proto
 syntax = "proto2";
 package apollo.cyber.examples.proto;
@@ -219,7 +219,7 @@ message Driver {
 
 #### 创建服务端和客户端
 
-```
+```cpp
 // filename: cyber/examples/service.cc
 #include "cyber/cyber.h"
 #include "cyber/examples/proto/examples.pb.h"
@@ -260,7 +260,7 @@ int main(int argc, char* argv[]) {
 
 #### Bazel构建（Build）文件
 
-```
+```cpp
 cc_binary(
     name = "service",
     srcs = [ "service.cc", ],
@@ -277,7 +277,7 @@ cc_binary(
   * 运行：`./bazel-bin/cyber/examples/service`
   * 核实结果：您应该在apollo/data/log/service.INFO中看到以下内容：
 
-```
+```cpp
 I1124 16:36:44.568845 14965 service.cc:30] [service] server: i am driver server
 I1124 16:36:44.569031 14949 service.cc:43] [service] client: response: msg_id: 1 timestamp: 0
 I1124 16:36:45.569514 14966 service.cc:30] [service] server: i am driver server
@@ -320,7 +320,7 @@ I1124 16:36:48.573030 14949 service.cc:43] [service] client: response: msg_id: 5
 
 支持的结构体：
 
-```
+```cpp
 Parameter();  // Name is empty, type is NOT_SET 名字为空，类型是NOT_SET
 explicit Parameter(const Parameter& parameter);
 explicit Parameter(const std::string& name);  // type为NOT_SET
@@ -338,7 +338,7 @@ Parameter(const std::string& name, const google::protobuf::Message& msg);
 
 使用参数对象的样例代码：
 
-```
+```cpp
 Parameter a("int", 10);
 Parameter b("bool", true);
 Parameter c("double", 0.1);
@@ -358,7 +358,7 @@ Parameter g("chatter", msg_str, Chatter::descriptor()->full_name(), msg_desc);
 
 接口列表：
 
-```
+```cpp
 inline ParamType type() const;
 inline std::string TypeName() const;
 inline std::string Descriptor() const;
@@ -387,7 +387,7 @@ value() const;
 
 如何使用这些接口的样例：
 
-```
+```cpp
 Parameter a("int", 10);
 a.Name();  // return int
 a.Type();  // return apollo::cyber::proto::ParamType::INT
@@ -404,7 +404,7 @@ auto chatter = f.value<Chatter>();
 
 如果一个节点想要为其他节点提供参数服务（Parameter Service），那么您需要创建`ParameterService`。
 
-```
+```cpp
 /**
  * @brief Construct a new ParameterService object
  *
@@ -417,7 +417,7 @@ explicit ParameterService(const std::shared_ptr<Node>& node);
 
 **设置参数：**
 
-```
+```cpp
 /**
  * @brief Set the Parameter object
  *
@@ -428,7 +428,7 @@ void SetParameter(const Parameter& parameter);
 
 **获取参数：**
 
-```
+```cpp
 /**
  * @brief Get the Parameter object
  *
@@ -442,7 +442,7 @@ bool GetParameter(const std::string& param_name, Parameter* parameter);
 
 **获取参数列表：**
 
-```
+```cpp
 /**
  * @brief Get all the Parameter objects
  *
@@ -457,7 +457,7 @@ bool ListParameters(std::vector<Parameter>* parameters);
 
 如果节点想要使用其他节点的参数服务，您需要创建`ParameterClient`。
 
-```
+```cpp
 /**
  * @brief Construct a new ParameterClient object
  *
@@ -471,7 +471,7 @@ ParameterClient(const std::shared_ptr<Node>& node, const std::string& service_no
 
 ### 样例
 
-```
+```cpp
 #include "cyber/cyber.h"
 #include "cyber/parameter/parameter_client.h"
 #include "cyber/parameter/parameter_server.h"
@@ -526,7 +526,7 @@ int main(int argc, char** argv) {
 
 ### <a id="客户端（Client）">客户端（Client）</a>
 
-### <a id="参数服务器（Parameter）">参数服务器（Parameter）</a>
+### <a id="参数服务（Parameter）">参数服务（Parameter）</a>
 
 ### <a id="定时器（Timer）">定时器（Timer）</a>
 

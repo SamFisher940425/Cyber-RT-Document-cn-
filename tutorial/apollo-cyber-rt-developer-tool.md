@@ -14,7 +14,7 @@
 
 ***cyber_visualizer***是为了展示阿波罗Cyber RT中各通道数据的可视化工具
 
-```
+```cpp
 username@computername:~$: source /your-path-to-apollo-install-dir/cyber/setup.bash
 username@computername:~$: cyber_visualizer
 ```
@@ -54,7 +54,7 @@ username@computername:~$: cyber_visualizer
 
 命令行工具***cyber_monitor***在终端中提供了阿波罗Cyber RT实时数据通道信息列表的清晰视图。
 
-```
+```cpp
 username@computername:~$: source /your-path-to-apollo-install-dir/cyber/setup.bash
 username@computername:~$: cyber_monitor
 ```
@@ -85,7 +85,7 @@ username@computername:~$: cyber_monitor
 
 #### 常用命令
 
-```
+```cpp
 ESC | q key ---- Exit 退出
 Backspace ---- Back 后退
 h | H ---- Show help page 显示帮助信息页面
@@ -93,7 +93,7 @@ h | H ---- Show help page 显示帮助信息页面
 
 #### 拓扑与通道的通用命令
 
-```
+```cpp
 PageDown | Ctrl+d --- Next 下一步
 PageUp | Ctrl+u --- Previous 上一步
 Up, down or w, s keys ---- Move the current highlight line up and down 将当前高亮行上下移动
@@ -115,10 +115,10 @@ b | B ------ Display channel message content 显示通道消息内容
 
 #### 查看通道中重复数据字段
 
-```
+```cpp
 n | N ---- Repeat the next data in the domain 在域（domain）中重现下一帧数据
 m | M ---- Repeat one data on the domain 在域（domain）中重现一个数据
-````
+```
 
 ## <a id="cyber_recorder工具">cyber_recorder 工具</a>
 
@@ -128,7 +128,7 @@ m | M ---- Repeat one data on the domain 在域（domain）中重现一个数据
 
 运行cyber_recorder
 
-```
+```cpp
 $ source /your-path-to-apollo-install-dir/cyber/setup.bash
 $ cyber_recorder
 usage: cyber_recorder <command>> [<args>]
@@ -144,7 +144,7 @@ The cyber_recorder commands are:
 
 * 查看数据记录(record)文件的信息：
 
-```
+```cpp
 $ cyber_recorder info -h
 usage: cyber_recorder info [options]
 	-h, --help				show help message 显示帮助信息
@@ -152,7 +152,7 @@ usage: cyber_recorder info [options]
 
 * 录制一个数据记录(record)文件
 
-```
+```cpp
 $ cyber_recorder record -h
 usage: cyber_recorder record [options]
     -o, --output <file>                output record file 输出一个记录文件
@@ -165,7 +165,7 @@ usage: cyber_recorder record [options]
 
 * 回放数据记录(record)文件：
 
-```
+```cpp
 $ cyber_recorder play -h
 usage: cyber_recorder play [options]
     -f, --file <file>			input record file 输入一个记录文件
@@ -184,7 +184,7 @@ usage: cyber_recorder play [options]
 
 * 分割数据记录(record)文件：
 
-```
+```cpp
 $ cyber_recorder split -h
 usage: cyber_recorder split [options]
     -f, --file <file>                  input record file 输入记录文件
@@ -197,7 +197,7 @@ usage: cyber_recorder split [options]
 
 * 修复（拼接）数据记录(record)文件：
 
-```
+```cpp
 $ cyber_recorder recover -h
 usage: cyber_recorder recover [options]
     -f, --file <file>                  input record file 输入记录文件
@@ -208,7 +208,7 @@ usage: cyber_recorder recover [options]
 
 #### 查看数据记录(record)文件细节
 
-```
+```cpp
 $ cyber_recorder info demo.record
 record_file:    demo.record
 version:        1.0
@@ -239,7 +239,7 @@ channel_info:   /apollo/localization/pose                             2000 messa
 
 #### 录制数据记录(record)文件
 
-```
+```cpp
 $ cyber_recorder record -a
 [RUNNING]  Record :     total channel num : 1  total msg num : 5
 ...
@@ -247,7 +247,7 @@ $ cyber_recorder record -a
 
 #### 回放数据记录(record)文件
 
-```
+```cpp
 $ cyber_recorder play -f 20180720202307.record
 file: 20180720202307.record, chunk_number: 1, begin_time: 1532089398663399667, end_time: 1532089404688079759, message_number: 75
 please wait for loading and playing back record...
@@ -262,7 +262,7 @@ play finished. file: 20180720202307.record
 
 目前这个工具支持以下通道：
 
-```
+```cpp
 /apollo/perception/obstacles
 /apollo/planning
 /apollo/prediction
@@ -296,7 +296,7 @@ play finished. file: 20180720202307.record
 
 运行 rosbag_to_record
 
-```
+```cpp
 $ source /your-path-to-apollo-install-dir/cyber/setup.bash
 $ rosbag_to_record
 Usage:
@@ -307,7 +307,7 @@ Usage:
 
 我们将阿波罗2.5的demo数据包转成了数据记录(record)文件格式
 
-```
+```cpp
 $ rosbag_to_record demo_2.5.bag demo.record
 record_file:    demo.record
 version:        1.0
