@@ -13,7 +13,7 @@
   * [定时器（Timer）](tutorial/cyber-rt-api-tutorial.md#定时器（Timer）)
   * [定时器（Timer）API](tutorial/cyber-rt-api-tutorial.md#定时器（Timer）API)
   * [数据记录（Record）文件：读取与写入](tutorial/cyber-rt-api-tutorial.md#数据记录（Record）文件：读取与写入)
-  * [C++ API 词典](tutorial/cyber-rt-api-tutorial.md#C++API词典)
+  * [C++ API词典](tutorial/cyber-rt-api-tutorial.md#C++API词典)
     * [节点（Node）](tutorial/cyber-rt-api-tutorial.md#节点（Node）)
     * [写入者（Writer）](tutorial/cyber-rt-api-tutorial.md#写入者（Writer）)
     * [客户端（Client）](tutorial/cyber-rt-api-tutorial.md#客户端（Client）)
@@ -97,11 +97,11 @@ auto CreateReader(const proto::RoleAttributes& role_attr,
 
   * 返回值：指向读取者（Reader）对象的共享指针
 
-## 示例代码
+### 示例代码
 
 译者注：讲话者-倾听者描述的是一种拓扑概念，常用作文件名；写入者-读取者描述的是实现函数，常用作函数名。
 
-### 讲话者（cyber/example/talker.cc）
+#### 讲话者（cyber/example/talker.cc）
 
 ```cpp
 #include "cyber/cyber.h"
@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-### 倾听者（cyber/examples/listener.cc）
+#### 倾听者（cyber/examples/listener.cc）
 
 ```cpp
 #include "cyber/cyber.h"
@@ -159,7 +159,7 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-### Bazel 构建（BUILD）文件（cyber/samples/BUILD）
+#### Bazel 构建（BUILD）文件（cyber/samples/BUILD）
 
 ```cpp
 cc_binary(
@@ -181,7 +181,7 @@ cc_binary(
 )
 ```
 
-### 构建与运行
+#### 构建与运行
 
   * 构建：bazel build cyber/examples/...
   * 在另一个终端中运行讲话者（Talker）/倾听者（Listener）：
@@ -290,7 +290,7 @@ I1124 16:36:48.572634 14969 service.cc:30] [service] server: i am driver server
 I1124 16:36:48.573030 14949 service.cc:43] [service] client: response: msg_id: 5 timestamp: 0
 ```
 
-#### 注意事项
+### 注意事项
 
   * 注册服务端时，请注意不要使用重复的服务名称
   * 注册服务端和客户端时，应用的节点名也不应重复
@@ -506,9 +506,271 @@ int main(int argc, char** argv) {
 
 ## <a id="记录（Log）API">记录（Log）API</a>
 
+### 记录（Log）库
+
+Cyber 记录库是基于glog之上的，需要包含以下头文件：
+
+```cpp
+#include "cyber/common/log.h"
+#include "cyber/init.h"
+```
+
+### 记录（Log）配置
+
+默认全局配置路径：cyber/setup.bash
+
+以下配置可由开发者更改：
+
+```cpp
+export GLOG_log_dir=/apollo/data/log
+export GLOG_alsologtostderr=0
+export GLOG_colorlogtostderr=1
+export GLOG_minloglevel=0
+```
+
+### 记录（Log）初始化
+
+在代码中调用初始化方法来初始化记录（Log）：
+
+```cpp
+apollo::cyber::cyber::Init(argv[0]) is initialized.
+If no macro definition is made in the previous component, the corresponding log is printed to the binary log.
+```
+
+### 记录（Log）输出宏
+
+记录库封装了记录打印宏，相关宏如下：
+
+```cpp
+ADEBUG << "hello cyber.";
+AINFO  << "hello cyber.";
+AWARN  << "hello cyber.";
+AERROR << "hello cyber.";
+AFATAL << "hello cyber.";
+```
+
+### 记录（Log）格式
+
+记录文件格式是`<MODULE_NAME>.log.<LOG_LEVEL>.<datetime>.<process_id>`
+
+### 关于记录（Log）文件
+
+目前，本记录文件与默认glog输出行为唯一的不同之处在于同一个模块的不同等级的记录将被写在同一个记录文件中
+
 ## <a id="基于组件构建模块">基于组件构建模块</a>
 
+### 关键概念
+
+#### 1.组件（Component）
+
+组件是Cyber RT提供的用于构建应用模块的基础类，每个特定的应用模块都能继承组件类并定义其自己的`Init`和`Proc`函数，以便将其载入Cyber RT框架中。
+
+#### 2.二进制 vs 组件
+
+在应用中使用Cyber RT框架有两种方式：
+
+  * 基于二进制：应用被单独编译成二进制，并通过创建其各自的`读取者（Reader）`和`写入者（Writer）`来与其他模块通信。
+  * 基于组件：应用被编译为共享库。通过继承组件类并编写对应的dag描述文件，Cyber RT框架将动态的加载与运行应用。
+
+##### 组件的基本接口
+
+  * 组件的`Init()`函数是类似于执行一些算法初始化的主函数。
+  * 组件的`Proc()`函数的工作方式类似于读取者（Reader）的回调函数，当消息到达时被框架调用。
+
+##### 使用组件的优势
+
+  * 组件能够通过启动（Launch）文件被加载入不同进程，部署十分灵活。
+  * 组件能够通过修改dag文件的方式修改接收通道的名称，无需重新编译
+  * 组件支持接收多种数据类型
+  * 组件提供多种融合策略
+
+#### 3.Dag文件格式
+
+Dag文件样例：
+
+```cpp
+# Define all coms in DAG streaming.
+module_config {
+    module_library : "lib/libperception_component.so"
+    components {
+        class_name : "PerceptionComponent"
+        config {
+            name : "perception"
+            readers {
+                channel: "perception/channel_name"
+            }
+        }
+    }
+    timer_components {
+        class_name : "DriverComponent"
+        config {
+            name : "driver"
+            interval : 100
+        }
+    }
+}
+```
+
+  * module_library：如果你想要加载一个.so库，根目录是Cyber的工作目录（与setup.bash同目录）
+  * components与timer_component：选择需要加载的基本组件类
+  * class_name：加载的组件类的名称
+  * name：作为样例的标识符载入的class_name
+  * readers：由当前组件接收的数据，支持1-3个数据通道
+
+### 样例
+
+#### Common_component_example(cyber/examples/common_component_example/\*)
+
+头文件定义（common_component_example.h)
+
+```cpp
+#include <memory>
+
+#include "cyber/class_loader/class_loader.h"
+#include "cyber/component/component.h"
+#include "cyber/examples/proto/examples.pb.h"
+
+using apollo::cyber::examples::proto::Driver;
+using apollo::cyber::Component;
+using apollo::cyber::ComponentBase;
+
+class Commontestcomponent : public Component<Driver, Driver> {
+ public:
+  bool Init() override;
+  bool Proc(const std::shared_ptr<Driver>& msg0,
+            const std::shared_ptr<Driver>& msg1) override;
+};
+CYBER_REGISTER_COMPONENT(Commontestcomponent)
+```
+
+Cpp文件实现（common_component_example.cc)
+
+```cpp
+#include "cyber/examples/common_component_smaple/common_component_example.h"
+
+#include "cyber/class_loader/class_loader.h"
+#include "cyber/component/component.h"
+
+bool Commontestcomponent::Init() {
+  AINFO << "Commontest component init";
+  return true;
+}
+
+bool Commontestcomponent::Proc(const std::shared_ptr<Driver>& msg0,
+                               const std::shared_ptr<Driver>& msg1) {
+  AINFO << "Start commontest component Proc [" << msg0->msg_id() << "] ["
+        << msg1->msg_id() << "]";
+  return true;
+}
+```
+
+####Timer_component_example(cyber/examples/timer_component_example/\*)
+
+头文件定义（timer_component_example.h）
+
+```cpp
+#include <memory>
+
+#include "cyber/class_loader/class_loader.h"
+#include "cyber/component/component.h"
+#include "cyber/component/timer_component.h"
+#include "cyber/examples/proto/examples.pb.h"
+
+using apollo::cyber::examples::proto::Driver;
+using apollo::cyber::Component;
+using apollo::cyber::ComponentBase;
+using apollo::cyber::TimerComponent;
+using apollo::cyber::Writer;
+
+class TimertestComponent : public TimerComponent {
+ public:
+  bool Init() override;
+  bool Proc() override;
+
+ private:
+  std::shared_ptr<Writer<Driver>> driver_writer_ = nullptr;
+};
+CYBER_REGISTER_COMPONENT(TimertestComponent)
+```
+
+Cpp文件实现（timer_component_example.cc)
+
+```cpp
+#include "cyber/examples/timer_component_example/timer_component_example.h"
+
+#include "cyber/class_loader/class_loader.h"
+#include "cyber/component/component.h"
+#include "cyber/examples/proto/examples.pb.h"
+
+bool TimertestComponent::Init() {
+  driver_writer_ = node_->CreateWriter<Driver>("/carstatus/channel");
+  return true;
+}
+
+bool TimertestComponent::Proc() {
+  static int i = 0;
+  auto out_msg = std::make_shared<Driver>();
+  out_msg->set_msg_id(i++);
+  driver_writer_->Write(out_msg);
+  AINFO << "timertestcomponent: Write drivermsg->"
+        << out_msg->ShortDebugString();
+  return true;
+}
+```
+
+#### 构建与运行
+
+以timer_test_component为例：
+
+  * 构建：`bazel build cyber/examples/timer_component_smaple/…`
+  * 运行：`mainboard -d cyber/examples/timer_component_smaple/timer.dag`
+
+### 注意事项
+
+  * 组件需要被注册才可以通过SharedLibrary加载到类。注册接口如下：
+
+  `CYBER_REGISTER_COMPONENT(DriverComponent)`
+
+  如果注册时使用了命名空间，在dag文件中定义时也需要添加命名空间。
+
+  * Component和TimerComponent的配置文件是不同的，请小心不要混淆。
+
 ## <a id="启动（Launch）">启动（Launch）</a>
+
+***cyber_launch***是Cyber RT框架的启动器。依据启动文件，cyber会启动多个mainboard，并根据dag文件加载不同的组件到mainboard。cyber_launch 支持两种在子进程中动态加载组件或者启动二进制程序的场景。
+
+### 启动文件格式
+
+```xml
+<cyber>
+    <module>
+        <name>driver</name>
+        <dag_conf>driver.dag</dag_conf>
+        <process_name></process_name>
+        <exception_handler>exit</exception_handler>
+    </module>
+    <module>
+        <name>perception</name>
+        <dag_conf>perception.dag</dag_conf>
+        <process_name></process_name>
+        <exception_handler>respawn</exception_handler>
+    </module>
+    <module>
+        <name>planning</name>
+        <dag_conf>planning.dag</dag_conf>
+        <process_name></process_name>
+    </module>
+</cyber>
+```
+
+Module：每个加载的组件或者二进制文件都是一个module
+
+  * name：加载模块的名称
+  * dag_conf：与组件对应的dag文件
+  * process_name：每次启动的mainboard进程，名称相同的组件会在相同的进程中被加载并运行
+  * exception_handler：当进程中发生异常时的一个处理方法，它的值可能是下列的exit或respawn（重生）
+    * exit：退出意味着当前进程非正常退出时整个进程需要停止运行
+    * respawn：非正常退出后当前进程需要重启。如果不存在这个句柄或空句柄则代表不做任何处理，根据进程的特定情况由用户去控制。
 
 ## <a id="定时器（Timer）">定时器（Timer）</a>
 
@@ -516,29 +778,25 @@ int main(int argc, char** argv) {
 
 ## <a id="数据记录（Record）文件：读取与写入">数据记录（Record）文件：读取与写入</a>
 
-## <a id="C++API词典">C++ API 词典</a>
+## <a id="C++API词典">C++ API词典</a>
 
-## <a id="启动（Launch）">启动（Launch）</a>
+### <a id="节点（Node）">节点（Node）API</a>
 
-### <a id="节点（Node）">节点（Node）</a>
+## <a id="写入者（Writer）">写入者（Writer）API</a>
 
-### <a id="写入者（Writer）">写入者（Writer）</a>
+## <a id="客户端（Client）">客户端（Client）API</a>
 
-### <a id="客户端（Client）">客户端（Client）</a>
+## <a id="参数服务（Parameter）">参数服务（Parameter）API</a>
 
-### <a id="参数服务（Parameter）">参数服务（Parameter）</a>
+## <a id="定时器（Timer）">定时器（Timer）API</a>
 
-### <a id="定时器（Timer）">定时器（Timer）</a>
+## <a id="时间（Time）">时间（Time）API</a>
 
-### <a id="时间（Time）">时间（Time）</a>
+## <a id="持续时间（Duration）">持续时间（Duration）API</a>
 
-### <a id="持续时间（Duration）">持续时间（Duration）</a>
+## <a id="速率（Rate）">速率（Rate）API</a>
 
-### <a id="速率（Rate）">速率（Rate）</a>
+## <a id="记录读取者（RecordReader）">记录读取者（RecordReader）API</a>
 
-### <a id="记录读取者（RecordReader）">记录读取者（RecordReader）</a>
-
-### <a id="记录写入者（RecordWriter）">记录写入者（RecordWriter）</a>
-
-
+## <a id="记录写入者（RecordWriter）">记录写入者（RecordWriter）API</a>
 
