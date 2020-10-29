@@ -11,7 +11,7 @@
   * [基于组件构建模块](tutorial/cyber-rt-api-tutorial.md#基于组件构建模块)
   * [启动（Launch）](tutorial/cyber-rt-api-tutorial.md#启动（Launch）)
   * [定时器（Timer）](tutorial/cyber-rt-api-tutorial.md#定时器（Timer）)
-  * [定时器（Timer）API](tutorial/cyber-rt-api-tutorial.md#定时器（Timer）API)
+  * [时间（Time）API](tutorial/cyber-rt-api-tutorial.md#时间（Time）API)
   * [数据记录（Record）文件：读取与写入](tutorial/cyber-rt-api-tutorial.md#数据记录（Record）文件：读取与写入)
   * [C++ API词典](tutorial/cyber-rt-api-tutorial.md#C++API词典)
     * [节点（Node）](tutorial/cyber-rt-api-tutorial.md#节点（Node）)
@@ -664,7 +664,7 @@ bool Commontestcomponent::Proc(const std::shared_ptr<Driver>& msg0,
 }
 ```
 
-####Timer_component_example(cyber/examples/timer_component_example/\*)
+#### Timer_component_example(cyber/examples/timer_component_example/\*)
 
 头文件定义（timer_component_example.h）
 
@@ -737,7 +737,7 @@ bool TimertestComponent::Proc() {
 
 ## <a id="启动（Launch）">启动（Launch）</a>
 
-***cyber_launch***是Cyber RT框架的启动器。依据启动文件，cyber会启动多个mainboard，并根据dag文件加载不同的组件到mainboard。cyber_launch 支持两种在子进程中动态加载组件或者启动二进制程序的场景。
+**cyber_launch**是Cyber RT框架的启动器。依据启动文件，cyber会启动多个mainboard，并根据dag文件加载不同的组件到mainboard。cyber_launch 支持两种在子进程中动态加载组件或者启动二进制程序的场景。
 
 ### 启动文件格式
 
@@ -770,23 +770,340 @@ Module：每个加载的组件或者二进制文件都是一个module
   * process_name：每次启动的mainboard进程，名称相同的组件会在相同的进程中被加载并运行
   * exception_handler：当进程中发生异常时的一个处理方法，它的值可能是下列的exit或respawn（重生）
     * exit：退出意味着当前进程非正常退出时整个进程需要停止运行
-    * respawn：非正常退出后当前进程需要重启。如果不存在这个句柄或空句柄则代表不做任何处理，根据进程的特定情况由用户去控制。
+    * respawn：非正常退出后当前进程需要重启。如果不存在这个句柄或空句柄则代表不做任何处理，根据进程的特定情况由用户去控制
 
 ## <a id="定时器（Timer）">定时器（Timer）</a>
 
-## <a id="定时器（Timer）API">定时器（Timer）API</a>
+定时器可以用于创建定时任务，以定期运行或运行一次。
+
+### 定时器接口
+
+```cpp
+/**
+ * @brief Construct a new Timer object
+ *
+ * @param period The period of the timer, unit is ms
+ * @param callback The tasks that the timer needs to perform
+ * @param oneshot True: perform the callback only after the first timing cycle
+ *                False: perform the callback every timed period
+ */
+Timer(uint32_t period, std::function<void()> callback, bool oneshot);
+```
+
+或者您可以将参数封装到结构体中，如下例的TimerOption：
+
+```cpp
+struct TimerOption {
+  uint32_t period;                 // The period of the timer, unit is ms
+  std::function<void()> callback;  // The tasks that the timer needs to perform
+  bool oneshot;  // True: perform the callback only after the first timing cycle
+                 // False: perform the callback every timed period
+};
+/**
+ * @brief Construct a new Timer object
+ *
+ * @param opt Timer option
+ */
+explicit Timer(TimerOption opt);
+```
+
+### 开启定时器
+
+创建定时器实例后，您需要调用`Timer::Start()`来启动定时器。
+
+### 停止定时器
+
+当您需要手动停止已经启动的定时器时，可以调用`Timer::Stop()`接口
+
+### 样例
+
+```cpp
+#include <iostream>
+#include "cyber/cyber.h"
+int main(int argc, char** argv) {
+    cyber::Init(argv[0]);
+    // Print current time every 100ms
+    cyber::Timer timer(100, [](){
+        std::cout << cyber::Time::Now() << std::endl;
+    }, false);
+    timer.Start()
+    sleep(1);
+    timer.Stop();
+}
+```
+
+## <a id="时间（Time）API">时间（Time）API</a>
+
+时间（Time）是一个用于管理时间的类，它可以用于获取当前时间，计算耗时，时间转换等工作。
+
+时间类的接口如下：
+
+```cpp
+// constructor, passing in a different value to construct Time
+Time(uint64_t nanoseconds); //uint64_t, in nanoseconds 纳秒
+Time(int nanoseconds); // int type, unit: nanoseconds 
+Time(double seconds); // double, in seconds 秒
+Time(uint32_t seconds, uint32_t nanoseconds);
+// seconds seconds + nanoseconds nanoseconds
+Static Time Now(); // Get the current time 获取时间
+Double ToSecond() const; // convert to seconds 转换到秒
+Uint64_t ToNanosecond() const; // Convert to nanoseconds 转换到纳秒
+Std::string ToString() const; // Convert to a string in the format "2018-07-10 20:21:51.123456789" 输出时间字符串
+Bool IsZero() const; // Determine if the time is 0 检测时间是否为0
+```
+
+以下是样例：
+
+```cpp
+#include <iostream>
+#include "cyber/cyber.h"
+#include "cyber/duration.h"
+int main(int argc, char** argv) {
+    cyber::Init(argv[0]);
+    Time t1(1531225311123456789UL);
+    std::cout << t1.ToString() << std::endl; // 2018-07-10 20:21:51.123456789
+    // Duration time interval
+    Time t1(100);
+    Duration d(200);
+    Time t2(300);
+    assert(d == (t1-t2)); // true
+}
+```
 
 ## <a id="数据记录（Record）文件：读取与写入">数据记录（Record）文件：读取与写入</a>
+
+### 读取读取者（Reader）文件
+
+**数据记录读取器（RecordReader）**是Cyber框架中用于读取消息的组件，每个数据记录读取器（RecordReader）都可以通过调用`open`方法打开一个已有的数据记录（Record）文件。用户只需执行`ReadMessage`来提取数据记录读取器（RecordReader）中最新的消息，然后通过`GetCurrentMessageChannelName`，`GetCurrentRawMessage`，`GetCurrentMessageTime`来获取消息的更多信息。
+
+**数据记录写入器（RecordWriter）**是Cyber框架中用于记录消息的组件，每个数据记录写入器（RecordWriter）都可以通过调用`open`方法创建一个新的数据记录（Record）文件，用户只需执行`WriteMessage`和`WriteChannel`写入消息和通道信息，写入过程是异步的。
+
+### 样例（cybre/example/record.cc）
+
+通过`test_write`方法向`TEST_FILE`中写入100个原始数据（RawMessage），然后通过`test_read`方法将它们读取出来。
+
+```cpp
+#include <string>
+
+#include "cyber/cyber.h"
+#include "cyber/message/raw_message.h"
+#include "cyber/proto/record.pb.h"
+#include "cyber/record/record_message.h"
+#include "cyber/record/record_reader.h"
+#include "cyber/record/record_writer.h"
+
+using ::apollo::cyber::record::RecordReader;
+using ::apollo::cyber::record::RecordWriter;
+using ::apollo::cyber::record::RecordMessage;
+using apollo::cyber::message::RawMessage;
+
+const char CHANNEL_NAME_1[] = "/test/channel1";
+const char CHANNEL_NAME_2[] = "/test/channel2";
+const char MESSAGE_TYPE_1[] = "apollo.cyber.proto.Test";
+const char MESSAGE_TYPE_2[] = "apollo.cyber.proto.Channel";
+const char PROTO_DESC[] = "1234567890";
+const char STR_10B[] = "1234567890";
+const char TEST_FILE[] = "test.record";
+
+void test_write(const std::string &writefile) {
+  RecordWriter writer;
+  writer.SetSizeOfFileSegmentation(0);
+  writer.SetIntervalOfFileSegmentation(0);
+  writer.Open(writefile);
+  writer.WriteChannel(CHANNEL_NAME_1, MESSAGE_TYPE_1, PROTO_DESC);
+  for (uint32_t i = 0; i < 100; ++i) {
+    auto msg = std::make_shared<RawMessage>("abc" + std::to_string(i));
+    writer.WriteMessage(CHANNEL_NAME_1, msg, 888 + i);
+  }
+  writer.Close();
+}
+
+void test_read(const std::string &readfile) {
+  RecordReader reader(readfile);
+  RecordMessage message;
+  uint64_t msg_count = reader.GetMessageNumber(CHANNEL_NAME_1);
+  AINFO << "MSGTYPE: " << reader.GetMessageType(CHANNEL_NAME_1);
+  AINFO << "MSGDESC: " << reader.GetProtoDesc(CHANNEL_NAME_1);
+
+  // read all message
+  uint64_t i = 0;
+  uint64_t valid = 0;
+  for (i = 0; i < msg_count; ++i) {
+    if (reader.ReadMessage(&message)) {
+      AINFO << "msg[" << i << "]-> "
+            << "channel name: " << message.channel_name
+            << "; content: " << message.content
+            << "; msg time: " << message.time;
+      valid++;
+    } else {
+      AERROR << "read msg[" << i << "] failed";
+    }
+  }
+  AINFO << "static msg=================";
+  AINFO << "MSG validmsg:totalcount: " << valid << ":" << msg_count;
+}
+
+int main(int argc, char *argv[]) {
+  apollo::cyber::Init(argv[0]);
+  test_write(TEST_FILE);
+  sleep(1);
+  test_read(TEST_FILE);
+  return 0;
+}
+```
+
+### 构建与运行
+
+  * 构建：`bazel build cyber/examples/…`
+  * 运行：`./bazel-bin/cyber/examples/record`
+  * 测试结果：
+
+```
+I1124 16:56:27.248200 15118 record.cc:64] [record] msg[0]-> channel name: /test/channel1; content: abc0; msg time: 888
+I1124 16:56:27.248227 15118 record.cc:64] [record] msg[1]-> channel name: /test/channel1; content: abc1; msg time: 889
+I1124 16:56:27.248239 15118 record.cc:64] [record] msg[2]-> channel name: /test/channel1; content: abc2; msg time: 890
+I1124 16:56:27.248252 15118 record.cc:64] [record] msg[3]-> channel name: /test/channel1; content: abc3; msg time: 891
+I1124 16:56:27.248297 15118 record.cc:64] [record] msg[4]-> channel name: /test/channel1; content: abc4; msg time: 892
+I1124 16:56:27.248378 15118 record.cc:64] [record] msg[5]-> channel name: /test/channel1; content: abc5; msg time: 893
+...
+I1124 16:56:27.250422 15118 record.cc:73] [record] static msg=================
+I1124 16:56:27.250434 15118 record.cc:74] [record] MSG validmsg:totalcount: 100:100
+```
 
 ## <a id="C++API词典">C++ API词典</a>
 
 ### <a id="节点（Node）">节点（Node）API</a>
 
+更多信息和样例参见[Node](tutorial/cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+
+### API列表
+
+```cpp
+//create writer with user-define attr and message type
+auto CreateWriter(const proto::RoleAttributes& role_attr)
+    -> std::shared_ptr<transport::Writer<MessageT>>;
+//create reader with user-define attr, callback and message type
+auto CreateReader(const proto::RoleAttributes& role_attr,
+    const croutine::CRoutineFunc<MessageT>& reader_func)
+    -> std::shared_ptr<transport::Reader<MessageT>>;
+//create writer with specific channel name and message type
+auto CreateWriter(const std::string& channel_name)
+    -> std::shared_ptr<transport::Writer<MessageT>>;
+//create reader with specific channel name, callback and message type
+auto CreateReader(const std::string& channel_name,
+    const croutine::CRoutineFunc<MessageT>& reader_func)
+    -> std::shared_ptr<transport::Reader<MessageT>>;
+//create reader with user-define config, callback and message type
+auto CreateReader(const ReaderConfig& config,
+                  const CallbackFunc<MessageT>& reader_func)
+    -> std::shared_ptr<cybertron::Reader<MessageT>>;
+//create service with name and specific callback
+auto CreateService(const std::string& service_name,
+    const typename service::Service<Request, Response>::ServiceCallback& service_calllback)
+    -> std::shared_ptr<service::Service<Request, Response>>;
+//create client with name to send request to server
+auto CreateClient(const std::string& service_name)
+    -> std::shared_ptr<service::Client<Request, Response>>;
+```
+
 ## <a id="写入者（Writer）">写入者（Writer）API</a>
+
+更多信息及样例参见[Writer](tutorial/cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+
+### API列表
+
+```cpp
+bool Write(const std::shared_ptr<MessageT>& message);
+```
 
 ## <a id="客户端（Client）">客户端（Client）API</a>
 
+更多信息及样例参见[Client](tutorial/cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
+
+### API列表
+
+```cpp
+SharedResponse SendRequest(SharedRequest request,
+                           const std::chrono::seconds& timeout_s = std::chrono::seconds(5));
+SharedResponse SendRequest(const Request& request,
+                           const std::chrono::seconds& timeout_s = std::chrono::seconds(5));
+```
+
 ## <a id="参数服务（Parameter）">参数服务（Parameter）API</a>
+
+用户进行参数相关操作的接口：
+
+  * 设置参数相关API
+  * 读取参数相关API
+  * 创建一个参数服务（ParameterService）来为其他节点提供参数服务相关APIs
+  * 创建一个参数客户端（ParameterClient）来使用其他节点提供的参数
+
+更多信息及样例参见[Parameter](tutorial/cyber-rt-api-tutorial.md#参数（Param）服务)
+
+### API列表-设置参数
+
+```cpp
+Parameter();  // Name is empty, type is NOT_SET
+explicit Parameter(const Parameter& parameter);
+explicit Parameter(const std::string& name);  // Type is NOT_SET
+Parameter(const std::string& name, const bool bool_value);
+Parameter(const std::string& name, const int int_value);
+Parameter(const std::string& name, const int64_t int_value);
+Parameter(const std::string& name, const float double_value);
+Parameter(const std::string& name, const double double_value);
+Parameter(const std::string& name, const std::string& string_value);
+Parameter(const std::string& name, const char* string_value);
+Parameter(const std::string& name, const std::string& msg_str,
+          const std::string& full_name, const std::string& proto_desc);
+Parameter(const std::string& name, const google::protobuf::Message& msg);
+```
+
+### API列表-读取参数
+
+```cpp
+inline ParamType type() const;
+inline std::string TypeName() const;
+inline std::string Descriptor() const;
+inline const std::string Name() const;
+inline bool AsBool() const;
+inline int64_t AsInt64() const;
+inline double AsDouble() const;
+inline const std::string AsString() const;
+std::string DebugString() const;
+template <typename Type>
+typename std::enable_if<std::is_base_of<google::protobuf::Message, Type>::value, Type>::type
+value() const;
+template <typename Type>
+typename std::enable_if<std::is_integral<Type>::value && !std::is_same<Type, bool>::value, Type>::type
+value() const;
+template <typename Type>
+typename std::enable_if<std::is_floating_point<Type>::value, Type>::type
+value() const;
+template <typename Type>
+typename std::enable_if<std::is_convertible<Type, std::string>::value, const std::string&>::type
+value() const;
+template <typename Type>
+typename std::enable_if<std::is_same<Type, bool>::value, bool>::type
+value() const;
+```
+
+### API列表-创建参数服务
+
+```cpp
+explicit ParameterService(const std::shared_ptr<Node>& node);
+void SetParameter(const Parameter& parameter);
+bool GetParameter(const std::string& param_name, Parameter* parameter);
+bool ListParameters(std::vector<Parameter>* parameters);
+```
+
+### API列表-创建参数客户端
+
+```cpp
+ParameterClient(const std::shared_ptr<Node>& node, const std::string& service_node_name);
+bool SetParameter(const Parameter& parameter);
+bool GetParameter(const std::string& param_name, Parameter* parameter);
+bool ListParameters(std::vector<Parameter>* parameters);
+```
 
 ## <a id="定时器（Timer）">定时器（Timer）API</a>
 
