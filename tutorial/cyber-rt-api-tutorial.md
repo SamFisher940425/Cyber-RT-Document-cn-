@@ -4,26 +4,26 @@
 
 内容列表
 
-  * [讲话者（Talker）和倾听者（Listener）](tutorial/cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
-  * [服务端（Service）的创建与使用](tutorial/cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
-  * [参数（Param）服务](tutorial/cyber-rt-api-tutorial.md#参数（Param）服务)
-  * [记录（Log）API](tutorial/cyber-rt-api-tutorial.md#记录（Log）API)
-  * [基于组件构建模块](tutorial/cyber-rt-api-tutorial.md#基于组件构建模块)
-  * [启动（Launch）](tutorial/cyber-rt-api-tutorial.md#启动（Launch）)
-  * [定时器（Timer）](tutorial/cyber-rt-api-tutorial.md#定时器（Timer）)
-  * [时间（Time）API](tutorial/cyber-rt-api-tutorial.md#时间（Time）API)
-  * [数据记录（Record）文件：读取与写入](tutorial/cyber-rt-api-tutorial.md#数据记录（Record）文件：读取与写入)
-  * [C++ API词典](tutorial/cyber-rt-api-tutorial.md#C++API词典)
-    * [节点（Node）](tutorial/cyber-rt-api-tutorial.md#节点（Node）)
-    * [写入者（Writer）](tutorial/cyber-rt-api-tutorial.md#写入者（Writer）)
-    * [客户端（Client）](tutorial/cyber-rt-api-tutorial.md#客户端（Client）)
-    * [参数服务（Parameter）](tutorial/cyber-rt-api-tutorial.md#参数服务（Parameter）)
-    * [定时器（Timer）](tutorial/cyber-rt-api-tutorial.md#定时器（Timer）)
-    * [时间（Time）](tutorial/cyber-rt-api-tutorial.md#时间（Time）)
-    * [持续时间（Duration）](tutorial/cyber-rt-api-tutorial.md#持续时间（Duration）)
-    * [速率（Rate）](tutorial/cyber-rt-api-tutorial.md#速率（Rate）)
-    * [记录读取者（RecordReader）](tutorial/cyber-rt-api-tutorial.md#记录读取者（RecordReader）)
-    * [记录写入者（RecordWriter）](tutorial/cyber-rt-api-tutorial.md#记录写入者（RecordWriter）)
+  * [讲话者（Talker）和倾听者（Listener）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+  * [服务端（Service）的创建与使用](cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
+  * [参数（Param）服务](cyber-rt-api-tutorial.md#参数（Param）服务)
+  * [记录（Log）API](cyber-rt-api-tutorial.md#记录（Log）API)
+  * [基于组件构建模块](cyber-rt-api-tutorial.md#基于组件构建模块)
+  * [启动（Launch）](cyber-rt-api-tutorial.md#启动（Launch）)
+  * [定时器（Timer）](cyber-rt-api-tutorial.md#定时器（Timer）)
+  * [时间（Time）API](cyber-rt-api-tutorial.md#时间（Time）API)
+  * [数据记录（Record）文件：读取与写入](cyber-rt-api-tutorial.md#数据记录（Record）文件：读取与写入)
+  * [C++ API词典](tcyber-rt-api-tutorial.md#C++API词典)
+    * [节点（Node）](cyber-rt-api-tutorial.md#节点（Node）)
+    * [写入者（Writer）](cyber-rt-api-tutorial.md#写入者（Writer）)
+    * [客户端（Client）](cyber-rt-api-tutorial.md#客户端（Client）)
+    * [参数服务（Parameter）](cyber-rt-api-tutorial.md#参数服务（Parameter）)
+    * [定时器（Timer）](cyber-rt-api-tutorial.md#定时器（Timer）)
+    * [时间（Time）](cyber-rt-api-tutorial.md#时间（Time）)
+    * [持续时间（Duration）](cyber-rt-api-tutorial.md#持续时间（Duration）)
+    * [速率（Rate）](cyber-rt-api-tutorial.md#速率（Rate）)
+    * [记录读取者（RecordReader）](cyber-rt-api-tutorial.md#记录读取者（RecordReader）)
+    * [记录写入者（RecordWriter）](cyber-rt-api-tutorial.md#记录写入者（RecordWriter）)
 
 ## <a id="讲话者（Talker）和倾听者（Listener）">讲话者（Talker）和倾听者（Listener）</a>
 
@@ -467,7 +467,7 @@ bool ListParameters(std::vector<Parameter>* parameters);
 ParameterClient(const std::shared_ptr<Node>& node, const std::string& service_node_name);
 ```
 
-您还可以执行在[参数服务端（Parameter Service）](tutorial/cyber-rt-api-tutorial.md#参数（Param）服务)下提到的`SetParameter`、`GetParameter`和`ListParameters`。
+您还可以执行在[参数服务端（Parameter Service）](cyber-rt-api-tutorial.md#参数（Param）服务)下提到的`SetParameter`、`GetParameter`和`ListParameters`。
 
 ### 样例
 
@@ -974,7 +974,7 @@ I1124 16:56:27.250434 15118 record.cc:74] [record] MSG validmsg:totalcount: 100:
 
 ### <a id="节点（Node）">节点（Node）API</a>
 
-更多信息和样例参见[节点（Node）](tutorial/cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+更多信息和样例参见[节点（Node）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
 
 ### API列表
 
@@ -1008,7 +1008,7 @@ auto CreateClient(const std::string& service_name)
 
 ## <a id="写入者（Writer）">写入者（Writer）API</a>
 
-更多信息及样例参见[写入者（Writer）](tutorial/cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+更多信息及样例参见[写入者（Writer）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
 
 ### API列表
 
@@ -1018,7 +1018,7 @@ bool Write(const std::shared_ptr<MessageT>& message);
 
 ## <a id="客户端（Client）">客户端（Client）API</a>
 
-更多信息及样例参见[客户端（Client）](tutorial/cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
+更多信息及样例参见[客户端（Client）](cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
 
 ### API列表
 
@@ -1038,7 +1038,7 @@ SharedResponse SendRequest(const Request& request,
   * 创建一个参数服务（ParameterService）来为其他节点提供参数服务相关APIs
   * 创建一个参数客户端（ParameterClient）来使用其他节点提供的参数
 
-更多信息及样例参见[参数服务（Parameter）](tutorial/cyber-rt-api-tutorial.md#参数（Param）服务)
+更多信息及样例参见[参数服务（Parameter）](cyber-rt-api-tutorial.md#参数（Param）服务)
 
 ### API列表-设置参数
 
@@ -1107,7 +1107,7 @@ bool ListParameters(std::vector<Parameter>* parameters);
 
 ## <a id="定时器（Timer）">定时器（Timer）API</a>
 
-可以设定定时器参数并调用start和stop接口来开始或停止定时器，更多信息及样例参见[定时器（Timer）](tutorial/cyber-rt-api-tutorial.md#定时器（Timer）)
+可以设定定时器参数并调用start和stop接口来开始或停止定时器，更多信息及样例参见[定时器（Timer）](cyber-rt-api-tutorial.md#定时器（Timer）)
 
 ### API列表
 
@@ -1121,7 +1121,7 @@ void Stop();
 
 ## <a id="时间（Time）">时间（Time）API</a>
 
-更多信息及样例详见[时间（Time）](tutorial/cyber-rt-api-tutorial.md#时间（Time）)
+更多信息及样例详见[时间（Time）](cyber-rt-api-tutorial.md#时间（Time）)
 
 ### API列表
 
