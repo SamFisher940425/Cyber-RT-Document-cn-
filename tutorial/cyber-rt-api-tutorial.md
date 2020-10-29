@@ -13,7 +13,7 @@
   * [定时器（Timer）](cyber-rt-api-tutorial.md#定时器（Timer）)
   * [时间（Time）API](cyber-rt-api-tutorial.md#时间（Time）API)
   * [数据记录（Record）文件：读取与写入](cyber-rt-api-tutorial.md#数据记录（Record）文件：读取与写入)
-  * [C++ API词典](tcyber-rt-api-tutorial.md#C++API词典)
+  * [C++ API词典](cyber-rt-api-tutorial.md#C++API词典)
     * [节点（Node）](cyber-rt-api-tutorial.md#节点（Node）)
     * [写入者（Writer）](cyber-rt-api-tutorial.md#写入者（Writer）)
     * [客户端（Client）](cyber-rt-api-tutorial.md#客户端（Client）)
