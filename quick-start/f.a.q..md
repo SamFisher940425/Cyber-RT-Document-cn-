@@ -6,9 +6,8 @@
 
 ## 我们为什么要再一个新的运行框架下开发？
 
-  * 自动驾驶技术多年来的发展中，我们从阿波罗前期的经验中学到了很多。在自动驾驶场景下，我们需要一个高效的集中计算模型，它需要有极高的性能，包括高并发性、低延迟和高吞吐量。
-
-  * 阿波罗也正随着整个行业不断发展。展望未来，阿波罗已经从开发转向生产，随着现实世界中的大量部署，我们看到了对最高的鲁棒性和高性能的需求。这就是我们花费数年时间打造阿波罗Cyber RT的原因，它满足了自动驾驶解决方案的需求。
+* 自动驾驶技术多年来的发展中，我们从阿波罗前期的经验中学到了很多。在自动驾驶场景下，我们需要一个高效的集中计算模型，它需要有极高的性能，包括高并发性、低延迟和高吞吐量。
+* 阿波罗也正随着整个行业不断发展。展望未来，阿波罗已经从开发转向生产，随着现实世界中的大量部署，我们看到了对最高的鲁棒性和高性能的需求。这就是我们花费数年时间打造阿波罗Cyber RT的原因，它满足了自动驾驶解决方案的需求。
 
 ## 这个新的运行框架有何优势？
 
@@ -28,7 +27,6 @@
 ## 我们还能使用已经采集好的数据吗？
 
 * 如果您收集的数据与阿波罗以前的版本兼容，您可以使用我们推荐的转换工具使数据与我们新的运行框架兼容。
-
 * 如果您创建了自定义的数据格式，则新的运行框架将不支持以前生成的数据。
 
 ## 你们还会继续支持ROS吗？
@@ -53,24 +51,24 @@
 因此，要减少延迟，可以更改机制，步骤如下：
 
 1. 更新Cyber RT到最新版本；
-2. 在https://github.com/ApolloAuto/apollo/blob/master/cyber/conf/cyber.pb.conf 中取消对***transport_conf***的注释；
-3. 把***shm_conf***的***notifier_type***从“multicast”改到“condition”；
+2. 在[https://github.com/ApolloAuto/apollo/blob/master/cyber/conf/cyber.pb.conf](https://github.com/ApolloAuto/apollo/blob/master/cyber/conf/cyber.pb.conf) 中取消对_**transport\_conf**_的注释；
+3. 把_**shm\_conf**_的_**notifier\_type**_从“multicast”改到“condition”；
 4. 使用后缀选项编译Cyber RT，如`bazel build -c opt --copt=-fpic //cyber/...`；
 5. 运行talker和listener；
 
-注：您可以根据节点间的关系选择相应的传输方式。例如，在进程中默认的配置是进程内***INTRA***、主机进程间***SHM***、主机间***RTPS***。当然您可以将三者都改成RTPS。或者将`same_proc`和`diff_proc`改成***SHM***;
+注：您可以根据节点间的关系选择相应的传输方式。例如，在进程中默认的配置是进程内_**INTRA**_、主机进程间_**SHM**_、主机间_**RTPS**_。当然您可以将三者都改成RTPS。或者将`same_proc`和`diff_proc`改成_**SHM**_;
 
 ## 如何使用无序列化消息？
 
 Cyber RT支持的消息类型包括序列化结构化数据，例如protobuf，以及原始字节序列。您可以参考示例代码：
 
 * apollo::cyber::message::RawMessage
-* talker: https://github.com/gruminions/apollo/blob/record/cyber/examples/talker.cc
-* listener: https://github.com/gruminions/apollo/blob/record/cyber/examples/listener.cc
+* talker: [https://github.com/gruminions/apollo/blob/record/cyber/examples/talker.cc](https://github.com/gruminions/apollo/blob/record/cyber/examples/talker.cc)
+* listener: [https://github.com/gruminions/apollo/blob/record/cyber/examples/listener.cc](https://github.com/gruminions/apollo/blob/record/cyber/examples/listener.cc)
 
 ## 如何配置多主机通信？
 
-确保两台主机（或多台主机）位于局域网中的相同网段内，例如***192.168.10.6***和***192.168.10.7***。
+确保两台主机（或多台主机）位于局域网中的相同网段内，例如_**192.168.10.6**_和_**192.168.10.7**_。
 
 您只需要更改`/apollo/cyber/setup.bash`中的`CYBER_IP`：
 
@@ -78,7 +76,7 @@ Cyber RT支持的消息类型包括序列化结构化数据，例如protobuf，�
 export CYBER_IP=127.0.0.1
 ```
 
-假设您有两台主机A和B，A的IP是192.168.10.6，B的IP是192.168.10.7。然后在主机A上将CYBER_IP设置为192.168.10.6，在主机B上将CYBER_IP设置为192.168.10.7。现在主机A可以与主机B通信了。
+假设您有两台主机A和B，A的IP是192.168.10.6，B的IP是192.168.10.7。然后在主机A上将CYBER\_IP设置为192.168.10.6，在主机B上将CYBER\_IP设置为192.168.10.7。现在主机A可以与主机B通信了。
 
 更多的常见问答待续……
 
