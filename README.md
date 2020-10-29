@@ -4,7 +4,7 @@ description: 百度阿波罗（Apollo）Cyber-RT中文版文档。由爱好者�
 
 # 介绍
 
-原文链接：[https://cyber-rt.readthedocs.io/en/latest/CyberRT\_Python\_API.html](https://cyber-rt.readthedocs.io/en/latest/CyberRT_Python_API.html)
+原文链接：[https://cyber-rt.readthedocs.io/en/latest/CyberRT_Quick_Start.html#](https://cyber-rt.readthedocs.io/en/latest/CyberRT_Quick_Start.html#)
 
 ## 介绍
 
