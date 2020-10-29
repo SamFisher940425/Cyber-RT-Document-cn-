@@ -1,6 +1,8 @@
 ---
-description: 原文链接[原文链接] (https://cyber-rt.readthedocs.io/en/latest/CyberRT_Python_API.html)百度阿波罗（Apollo）Cyber-RT中文版文档。由爱好者私人翻译，允许任何非商用的转载。
+description: 百度阿波罗（Apollo）Cyber-RT中文版文档。由爱好者私人翻译，允许任何非商用的转载。
 ---
+
+原文链接：[https://cyber-rt.readthedocs.io/en/latest/CyberRT_Python_API.html] (https://cyber-rt.readthedocs.io/en/latest/CyberRT_Python_API.html)
 
 # 介绍
 
