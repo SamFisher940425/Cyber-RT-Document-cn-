@@ -974,7 +974,7 @@ I1124 16:56:27.250434 15118 record.cc:74] [record] MSG validmsg:totalcount: 100:
 
 ### <a id="节点（Node）">节点（Node）API</a>
 
-更多信息和样例参见[Node](tutorial/cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+更多信息和样例参见[节点（Node）](tutorial/cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
 
 ### API列表
 
@@ -1008,7 +1008,7 @@ auto CreateClient(const std::string& service_name)
 
 ## <a id="写入者（Writer）">写入者（Writer）API</a>
 
-更多信息及样例参见[Writer](tutorial/cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+更多信息及样例参见[写入者（Writer）](tutorial/cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
 
 ### API列表
 
@@ -1018,7 +1018,7 @@ bool Write(const std::shared_ptr<MessageT>& message);
 
 ## <a id="客户端（Client）">客户端（Client）API</a>
 
-更多信息及样例参见[Client](tutorial/cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
+更多信息及样例参见[客户端（Client）](tutorial/cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
 
 ### API列表
 
@@ -1038,7 +1038,7 @@ SharedResponse SendRequest(const Request& request,
   * 创建一个参数服务（ParameterService）来为其他节点提供参数服务相关APIs
   * 创建一个参数客户端（ParameterClient）来使用其他节点提供的参数
 
-更多信息及样例参见[Parameter](tutorial/cyber-rt-api-tutorial.md#参数（Param）服务)
+更多信息及样例参见[参数服务（Parameter）](tutorial/cyber-rt-api-tutorial.md#参数（Param）服务)
 
 ### API列表-设置参数
 
@@ -1107,13 +1107,112 @@ bool ListParameters(std::vector<Parameter>* parameters);
 
 ## <a id="定时器（Timer）">定时器（Timer）API</a>
 
+可以设定定时器参数并调用start和stop接口来开始或停止定时器，更多信息及样例参见[定时器（Timer）](tutorial/cyber-rt-api-tutorial.md#定时器（Timer）)
+
+### API列表
+
+```cpp
+Timer(uint32_t period, std::function<void()> callback, bool oneshot);
+Timer(TimerOption opt);
+void SetTimerOption(TimerOption opt);
+void Start();
+void Stop();
+```
+
 ## <a id="时间（Time）">时间（Time）API</a>
+
+更多信息及样例详见[时间（Time）](tutorial/cyber-rt-api-tutorial.md#时间（Time）)
+
+### API列表
+
+```cpp
+static const Time MAX;
+static const Time MIN;
+Time() {}
+explicit Time(uint64_t nanoseconds);
+explicit Time(int nanoseconds);
+explicit Time(double seconds);
+Time(uint32_t seconds, uint32_t nanoseconds);
+Time(const Time& other);
+static Time Now();
+static Time MonoTime();
+static void SleepUntil(const Time& time);
+double ToSecond() const;
+uint64_t ToNanosecond() const;
+std::string ToString() const;
+bool IsZero() const;
+```
 
 ## <a id="持续时间（Duration）">持续时间（Duration）API</a>
 
+间隔相关接口，用于指示时间间隔，能够初始化为特定的纳秒或秒
+
+### API列表
+
+```cpp
+Duration() {}
+Duration(int64_t nanoseconds);
+Duration(int nanoseconds);
+Duration(double seconds);
+Duration(uint32_t seconds, uint32_t nanoseconds);
+Duration(const Rate& rate);
+Duration(const Duration& other);
+double ToSecond() const;
+int64_t ToNanosecond() const;
+bool IsZero() const;
+void Sleep() const;
+```
+
 ## <a id="速率（Rate）">速率（Rate）API</a>
+
+频率接口通常用于初始化以特定频率初始化的对象后的睡眠频率时间
+
+### API列表
+
+```cpp
+Rate(double frequency);
+Rate(uint64_t nanoseconds);
+Rate(const Duration&);
+void Sleep();
+void Reset();
+Duration CycleTime() const;
+Duration ExpectedCycleTime() const { return expected_cycle_time_; }
+```
 
 ## <a id="记录读取者（RecordReader）">记录读取者（RecordReader）API</a>
 
+读取数据记录文件的接口，用于读取数据记录文件中的消息及通道信息
+
+### API列表
+
+```cpp
+RecordReader();
+bool Open(const std::string& filename, uint64_t begin_time = 0,
+          uint64_t end_time = UINT64_MAX);
+void Close();
+bool ReadMessage();
+bool EndOfFile();
+const std::string& CurrentMessageChannelName();
+std::shared_ptr<RawMessage> CurrentRawMessage();
+uint64_t CurrentMessageTime();
+```
+
 ## <a id="记录写入者（RecordWriter）">记录写入者（RecordWriter）API</a>
 
+写入数据记录文件的接口，用于记录消息及通道信息到数据记录文件中
+
+### API列表
+
+```cpp
+RecordWriter();
+bool Open(const std::string& file);
+void Close();
+bool WriteChannel(const std::string& name, const std::string& type,
+                  const std::string& proto_desc);
+template <typename MessageT>
+bool WriteMessage(const std::string& channel_name, const MessageT& message,
+                  const uint64_t time_nanosec,
+                  const std::string& proto_desc = "");
+bool SetSizeOfFileSegmentation(uint64_t size_kilobytes);
+bool SetIntervalOfFileSegmentation(uint64_t time_sec);
+```
