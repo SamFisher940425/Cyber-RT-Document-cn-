@@ -4,28 +4,28 @@
 
 内容列表
 
-  * [讲话者（Talker）和倾听者（Listener）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
-  * [服务端（Service）的创建与使用](cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
-  * [参数（Param）服务](cyber-rt-api-tutorial.md#参数（Param）服务)
-  * [记录（Log）API](cyber-rt-api-tutorial.md#记录（Log）API)
-  * [基于组件构建模块](cyber-rt-api-tutorial.md#基于组件构建模块)
-  * [启动（Launch）](cyber-rt-api-tutorial.md#启动（Launch）)
+* [讲话者（Talker）和倾听者（Listener）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+* [服务端（Service）的创建与使用](cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
+* [参数（Param）服务](cyber-rt-api-tutorial.md#参数（Param）服务)
+* [记录（Log）API](cyber-rt-api-tutorial.md#记录（Log）API)
+* [基于组件构建模块](cyber-rt-api-tutorial.md#基于组件构建模块)
+* [启动（Launch）](cyber-rt-api-tutorial.md#启动（Launch）)
+* [定时器（Timer）](cyber-rt-api-tutorial.md#定时器（Timer）)
+* [时间（Time）API](cyber-rt-api-tutorial.md#时间（Time）API)
+* [数据记录（Record）文件：读取与写入](cyber-rt-api-tutorial.md#数据记录（Record）文件：读取与写入)
+* [C++ API词典](cyber-rt-api-tutorial.md#C++API词典)
+  * [节点（Node）](cyber-rt-api-tutorial.md#节点（Node）)
+  * [写入者（Writer）](cyber-rt-api-tutorial.md#写入者（Writer）)
+  * [客户端（Client）](cyber-rt-api-tutorial.md#客户端（Client）)
+  * [参数服务（Parameter）](cyber-rt-api-tutorial.md#参数服务（Parameter）)
   * [定时器（Timer）](cyber-rt-api-tutorial.md#定时器（Timer）)
-  * [时间（Time）API](cyber-rt-api-tutorial.md#时间（Time）API)
-  * [数据记录（Record）文件：读取与写入](cyber-rt-api-tutorial.md#数据记录（Record）文件：读取与写入)
-  * [C++ API词典](cyber-rt-api-tutorial.md#C++API词典)
-    * [节点（Node）](cyber-rt-api-tutorial.md#节点（Node）)
-    * [写入者（Writer）](cyber-rt-api-tutorial.md#写入者（Writer）)
-    * [客户端（Client）](cyber-rt-api-tutorial.md#客户端（Client）)
-    * [参数服务（Parameter）](cyber-rt-api-tutorial.md#参数服务（Parameter）)
-    * [定时器（Timer）](cyber-rt-api-tutorial.md#定时器（Timer）)
-    * [时间（Time）](cyber-rt-api-tutorial.md#时间（Time）)
-    * [持续时间（Duration）](cyber-rt-api-tutorial.md#持续时间（Duration）)
-    * [速率（Rate）](cyber-rt-api-tutorial.md#速率（Rate）)
-    * [记录读取者（RecordReader）](cyber-rt-api-tutorial.md#记录读取者（RecordReader）)
-    * [记录写入者（RecordWriter）](cyber-rt-api-tutorial.md#记录写入者（RecordWriter）)
+  * [时间（Time）](cyber-rt-api-tutorial.md#时间（Time）)
+  * [持续时间（Duration）](cyber-rt-api-tutorial.md#持续时间（Duration）)
+  * [速率（Rate）](cyber-rt-api-tutorial.md#速率（Rate）)
+  * [记录读取者（RecordReader）](cyber-rt-api-tutorial.md#记录读取者（RecordReader）)
+  * [记录写入者（RecordWriter）](cyber-rt-api-tutorial.md#记录写入者（RecordWriter）)
 
-## <a id="讲话者（Talker）和倾听者（Listener）">讲话者（Talker）和倾听者（Listener）</a>
+## [讲话者（Talker）和倾听者（Listener）](cyber-rt-api-tutorial.md) <a id="&#x8BB2;&#x8BDD;&#x8005;&#xFF08;Talker&#xFF09;&#x548C;&#x503E;&#x542C;&#x8005;&#xFF08;Listener&#xFF09;"></a>
 
 Cyber RT API示例的第一部分是理解讲话者（Talker）和倾听者（Listener）样例。以下是样例中的三个基本概念：节点（基本单元）、读取者（读取消息的工具）和写入者（写入消息的工具）。
 
@@ -37,16 +37,11 @@ Cyber RT API示例的第一部分是理解讲话者（Talker）和倾听者（Li
 std::unique_ptr<Node> apollo::cyber::CreateNode(const std::string& node_name, const std::string& name_space = "");
 ```
 
-  * 参数：
-
-    * 节点名（node_name）：节点的名称，全局唯一标识符
-
-    * 命名空间（name_space）：节点所在的空间名称
-      默认情况下，命名空间为空。它是与节点名相连的空间的名称。格式是`/namespace/node_name`
-
-  * 返回值：指向节点的专用智能指针
-
-  * 错误条件：当`cyber::Init()`尚未调用时，系统处于未初始化状态，无法创建节点，返回空指针（nullptr）。
+* 参数：
+  * 节点名（node\_name）：节点的名称，全局唯一标识符
+  * 命名空间（name\_space）：节点所在的空间名称 默认情况下，命名空间为空。它是与节点名相连的空间的名称。格式是`/namespace/node_name`
+* 返回值：指向节点的专用智能指针
+* 错误条件：当`cyber::Init()`尚未调用时，系统处于未初始化状态，无法创建节点，返回空指针（nullptr）。
 
 ### 创建一个写入者（Writer）
 
@@ -61,13 +56,10 @@ template <typename MessageT>
        -> std::shared_ptr<Writer<MessageT>>;
 ```
 
-  * 参数：
-
-    * 通道名称（Channel_name）：要写入的通道的名称
-
-    * 消息类型（MessageT）：将要写入的消息的类型
-
-  * 返回值： 指向写入者（Writer）对象的共享指针
+* 参数：
+  * 通道名称（Channel\_name）：要写入的通道的名称
+  * 消息类型（MessageT）：将要写入的消息的类型
+* 返回值： 指向写入者（Writer）对象的共享指针
 
 ### 创建一个读取者（Reader）
 
@@ -89,13 +81,11 @@ auto CreateReader(const proto::RoleAttributes& role_attr,
 -> std::shared_ptr<cyber::Reader<MessageT>>;
 ```
 
-  * 参数：
-
-    * 消息类型（MessageT）：要读取消息的类型
-    * 通道名（channel_name）：要接收信息的通道的名称
-    * 读取者函数（reader_func）：处理消息的回调函数
-
-  * 返回值：指向读取者（Reader）对象的共享指针
+* 参数：
+  * 消息类型（MessageT）：要读取消息的类型
+  * 通道名（channel\_name）：要接收信息的通道的名称
+  * 读取者函数（reader\_func）：处理消息的回调函数
+* 返回值：指向读取者（Reader）对象的共享指针
 
 ### 示例代码
 
@@ -183,14 +173,13 @@ cc_binary(
 
 #### 构建与运行
 
-  * 构建：bazel build cyber/examples/...
-  * 在另一个终端中运行讲话者（Talker）/倾听者（Listener）：
+* 构建：bazel build cyber/examples/...
+* 在另一个终端中运行讲话者（Talker）/倾听者（Listener）：
+  * ./bazel-bin/cyber/examples/talker
+  * ./bazel-bin/cyber/examples/listener
+* 测试结果：您将在倾听者（Listener）看到消息的打印输出
 
-    * ./bazel-bin/cyber/examples/talker
-    * ./bazel-bin/cyber/examples/listener
-  * 测试结果：您将在倾听者（Listener）看到消息的打印输出
-
-## <a id="服务端（Service）的创建与使用">服务端（Service）的创建与使用</a>
+## [服务端（Service）的创建与使用](cyber-rt-api-tutorial.md) <a id="&#x670D;&#x52A1;&#x7AEF;&#xFF08;Service&#xFF09;&#x7684;&#x521B;&#x5EFA;&#x4E0E;&#x4F7F;&#x7528;"></a>
 
 ### 介绍
 
@@ -273,9 +262,9 @@ cc_binary(
 
 #### 构建并运行
 
-  * 构建服务端/客户端：`bazel build cyber/examples/…`
-  * 运行：`./bazel-bin/cyber/examples/service`
-  * 核实结果：您应该在apollo/data/log/service.INFO中看到以下内容：
+* 构建服务端/客户端：`bazel build cyber/examples/…`
+* 运行：`./bazel-bin/cyber/examples/service`
+* 核实结果：您应该在apollo/data/log/service.INFO中看到以下内容：
 
 ```cpp
 I1124 16:36:44.568845 14965 service.cc:30] [service] server: i am driver server
@@ -292,10 +281,10 @@ I1124 16:36:48.573030 14949 service.cc:43] [service] client: response: msg_id: 5
 
 ### 注意事项
 
-  * 注册服务端时，请注意不要使用重复的服务名称
-  * 注册服务端和客户端时，应用的节点名也不应重复
+* 注册服务端时，请注意不要使用重复的服务名称
+* 注册服务端和客户端时，应用的节点名也不应重复
 
-## <a id="参数（Param）服务">参数（Param）服务</a>
+## [参数（Param）服务](cyber-rt-api-tutorial.md) <a id="&#x53C2;&#x6570;&#xFF08;Param&#xFF09;&#x670D;&#x52A1;"></a>
 
 参数服务（Parameter Service）用于节点之间共享数据，并提供基本的操作，例如`set`、`get`和`list`。参数服务（Parameter Service）基于服务（Service）实现，包含服务端（Service）和客户端（Client）。
 
@@ -305,14 +294,14 @@ I1124 16:36:48.573030 14949 service.cc:43] [service] client: response: msg_id: 5
 
 通过Cyber RT传递的所有参数都是`apollo::cyber::Parameter`对象，下表列出了5种支持的参数类型。
 
-|Parameter type | C++ data type | protobuf data type |
+| Parameter type | C++ data type | protobuf data type |
 | :--- | :--- | :--- |
-| apollo::cyber::proto::ParamType::INT | int64_t | int64
-| apollo::cyber::proto::ParamType::DOUBLE | double | double
-| apollo::cyber::proto::ParamType::BOOL | bool |bool
-| apollo::cyber::proto::ParamType::STRING | std::string | string
-| apollo::cyber::proto::ParamType::PROTOBUF | std::string | string
-| apollo::cyber::proto::ParamType::NOT_SET | - | - |
+| apollo::cyber::proto::ParamType::INT | int64\_t | int64 |
+| apollo::cyber::proto::ParamType::DOUBLE | double | double |
+| apollo::cyber::proto::ParamType::BOOL | bool | bool |
+| apollo::cyber::proto::ParamType::STRING | std::string | string |
+| apollo::cyber::proto::ParamType::PROTOBUF | std::string | string |
+| apollo::cyber::proto::ParamType::NOT\_SET | - | - |
 
 除了上述五种类型外，参数（Parameter）还支持protobuf对象作为传入参数的接口。执行或序列化处理对象并将其转化为字符串（string）类型。
 
@@ -501,10 +490,10 @@ int main(int argc, char** argv) {
 
 #### 构建与运行
 
-  * 构建：`bazel build cyber/examples/…`
-  * 运行：`./bazel-bin/cyber/examples/paramserver`
+* 构建：`bazel build cyber/examples/…`
+* 运行：`./bazel-bin/cyber/examples/paramserver`
 
-## <a id="记录（Log）API">记录（Log）API</a>
+## [记录（Log）API](cyber-rt-api-tutorial.md) <a id="&#x8BB0;&#x5F55;&#xFF08;Log&#xFF09;API"></a>
 
 ### 记录（Log）库
 
@@ -557,7 +546,7 @@ AFATAL << "hello cyber.";
 
 目前，本记录文件与默认glog输出行为唯一的不同之处在于同一个模块的不同等级的记录将被写在同一个记录文件中
 
-## <a id="基于组件构建模块">基于组件构建模块</a>
+## [基于组件构建模块](cyber-rt-api-tutorial.md) <a id="&#x57FA;&#x4E8E;&#x7EC4;&#x4EF6;&#x6784;&#x5EFA;&#x6A21;&#x5757;"></a>
 
 ### 关键概念
 
@@ -569,20 +558,20 @@ AFATAL << "hello cyber.";
 
 在应用中使用Cyber RT框架有两种方式：
 
-  * 基于二进制：应用被单独编译成二进制，并通过创建其各自的`读取者（Reader）`和`写入者（Writer）`来与其他模块通信。
-  * 基于组件：应用被编译为共享库。通过继承组件类并编写对应的dag描述文件，Cyber RT框架将动态的加载与运行应用。
+* 基于二进制：应用被单独编译成二进制，并通过创建其各自的`读取者（Reader）`和`写入者（Writer）`来与其他模块通信。
+* 基于组件：应用被编译为共享库。通过继承组件类并编写对应的dag描述文件，Cyber RT框架将动态的加载与运行应用。
 
-##### 组件的基本接口
+**组件的基本接口**
 
-  * 组件的`Init()`函数是类似于执行一些算法初始化的主函数。
-  * 组件的`Proc()`函数的工作方式类似于读取者（Reader）的回调函数，当消息到达时被框架调用。
+* 组件的`Init()`函数是类似于执行一些算法初始化的主函数。
+* 组件的`Proc()`函数的工作方式类似于读取者（Reader）的回调函数，当消息到达时被框架调用。
 
-##### 使用组件的优势
+**使用组件的优势**
 
-  * 组件能够通过启动（Launch）文件被加载入不同进程，部署十分灵活。
-  * 组件能够通过修改dag文件的方式修改接收通道的名称，无需重新编译
-  * 组件支持接收多种数据类型
-  * 组件提供多种融合策略
+* 组件能够通过启动（Launch）文件被加载入不同进程，部署十分灵活。
+* 组件能够通过修改dag文件的方式修改接收通道的名称，无需重新编译
+* 组件支持接收多种数据类型
+* 组件提供多种融合策略
 
 #### 3.Dag文件格式
 
@@ -611,17 +600,17 @@ module_config {
 }
 ```
 
-  * module_library：如果你想要加载一个.so库，根目录是Cyber的工作目录（与setup.bash同目录）
-  * components与timer_component：选择需要加载的基本组件类
-  * class_name：加载的组件类的名称
-  * name：作为样例的标识符载入的class_name
-  * readers：由当前组件接收的数据，支持1-3个数据通道
+* module\_library：如果你想要加载一个.so库，根目录是Cyber的工作目录（与setup.bash同目录）
+* components与timer\_component：选择需要加载的基本组件类
+* class\_name：加载的组件类的名称
+* name：作为样例的标识符载入的class\_name
+* readers：由当前组件接收的数据，支持1-3个数据通道
 
 ### 样例
 
-#### Common_component_example(cyber/examples/common_component_example/\*)
+#### Common\_component\_example\(cyber/examples/common\_component\_example/\*\)
 
-头文件定义（common_component_example.h)
+头文件定义（common\_component\_example.h\)
 
 ```cpp
 #include <memory>
@@ -643,7 +632,7 @@ class Commontestcomponent : public Component<Driver, Driver> {
 CYBER_REGISTER_COMPONENT(Commontestcomponent)
 ```
 
-Cpp文件实现（common_component_example.cc)
+Cpp文件实现（common\_component\_example.cc\)
 
 ```cpp
 #include "cyber/examples/common_component_smaple/common_component_example.h"
@@ -664,9 +653,9 @@ bool Commontestcomponent::Proc(const std::shared_ptr<Driver>& msg0,
 }
 ```
 
-#### Timer_component_example(cyber/examples/timer_component_example/\*)
+#### Timer\_component\_example\(cyber/examples/timer\_component\_example/\*\)
 
-头文件定义（timer_component_example.h）
+头文件定义（timer\_component\_example.h）
 
 ```cpp
 #include <memory>
@@ -693,7 +682,7 @@ class TimertestComponent : public TimerComponent {
 CYBER_REGISTER_COMPONENT(TimertestComponent)
 ```
 
-Cpp文件实现（timer_component_example.cc)
+Cpp文件实现（timer\_component\_example.cc\)
 
 ```cpp
 #include "cyber/examples/timer_component_example/timer_component_example.h"
@@ -720,28 +709,28 @@ bool TimertestComponent::Proc() {
 
 #### 构建与运行
 
-以timer_test_component为例：
+以timer\_test\_component为例：
 
-  * 构建：`bazel build cyber/examples/timer_component_smaple/…`
-  * 运行：`mainboard -d cyber/examples/timer_component_smaple/timer.dag`
+* 构建：`bazel build cyber/examples/timer_component_smaple/…`
+* 运行：`mainboard -d cyber/examples/timer_component_smaple/timer.dag`
 
 ### 注意事项
 
-  * 组件需要被注册才可以通过SharedLibrary加载到类。注册接口如下：
+* 组件需要被注册才可以通过SharedLibrary加载到类。注册接口如下：
 
   `CYBER_REGISTER_COMPONENT(DriverComponent)`
 
   如果注册时使用了命名空间，在dag文件中定义时也需要添加命名空间。
 
-  * Component和TimerComponent的配置文件是不同的，请小心不要混淆。
+* Component和TimerComponent的配置文件是不同的，请小心不要混淆。
 
-## <a id="启动（Launch）">启动（Launch）</a>
+## [启动（Launch）](cyber-rt-api-tutorial.md) <a id="&#x542F;&#x52A8;&#xFF08;Launch&#xFF09;"></a>
 
-**cyber_launch**是Cyber RT框架的启动器。依据启动文件，cyber会启动多个mainboard，并根据dag文件加载不同的组件到mainboard。cyber_launch 支持两种在子进程中动态加载组件或者启动二进制程序的场景。
+**cyber\_launch**是Cyber RT框架的启动器。依据启动文件，cyber会启动多个mainboard，并根据dag文件加载不同的组件到mainboard。cyber\_launch 支持两种在子进程中动态加载组件或者启动二进制程序的场景。
 
 ### 启动文件格式
 
-```xml
+```markup
 <cyber>
     <module>
         <name>driver</name>
@@ -765,14 +754,14 @@ bool TimertestComponent::Proc() {
 
 Module：每个加载的组件或者二进制文件都是一个module
 
-  * name：加载模块的名称
-  * dag_conf：与组件对应的dag文件
-  * process_name：每次启动的mainboard进程，名称相同的组件会在相同的进程中被加载并运行
-  * exception_handler：当进程中发生异常时的一个处理方法，它的值可能是下列的exit或respawn（重生）
-    * exit：退出意味着当前进程非正常退出时整个进程需要停止运行
-    * respawn：非正常退出后当前进程需要重启。如果不存在这个句柄或空句柄则代表不做任何处理，根据进程的特定情况由用户去控制
+* name：加载模块的名称
+* dag\_conf：与组件对应的dag文件
+* process\_name：每次启动的mainboard进程，名称相同的组件会在相同的进程中被加载并运行
+* exception\_handler：当进程中发生异常时的一个处理方法，它的值可能是下列的exit或respawn（重生）
+  * exit：退出意味着当前进程非正常退出时整个进程需要停止运行
+  * respawn：非正常退出后当前进程需要重启。如果不存在这个句柄或空句柄则代表不做任何处理，根据进程的特定情况由用户去控制
 
-## <a id="定时器（Timer）">定时器（Timer）</a>
+## [定时器（Timer）](cyber-rt-api-tutorial.md) <a id="&#x5B9A;&#x65F6;&#x5668;&#xFF08;Timer&#xFF09;"></a>
 
 定时器可以用于创建定时任务，以定期运行或运行一次。
 
@@ -832,7 +821,7 @@ int main(int argc, char** argv) {
 }
 ```
 
-## <a id="时间（Time）API">时间（Time）API</a>
+## [时间（Time）API](cyber-rt-api-tutorial.md) <a id="&#x65F6;&#x95F4;&#xFF08;Time&#xFF09;API"></a>
 
 时间（Time）是一个用于管理时间的类，它可以用于获取当前时间，计算耗时，时间转换等工作。
 
@@ -870,7 +859,7 @@ int main(int argc, char** argv) {
 }
 ```
 
-## <a id="数据记录（Record）文件：读取与写入">数据记录（Record）文件：读取与写入</a>
+## [数据记录（Record）文件：读取与写入](cyber-rt-api-tutorial.md) <a id="&#x6570;&#x636E;&#x8BB0;&#x5F55;&#xFF08;Record&#xFF09;&#x6587;&#x4EF6;&#xFF1A;&#x8BFB;&#x53D6;&#x4E0E;&#x5199;&#x5165;"></a>
 
 ### 读取读取者（Reader）文件
 
@@ -954,11 +943,11 @@ int main(int argc, char *argv[]) {
 
 ### 构建与运行
 
-  * 构建：`bazel build cyber/examples/…`
-  * 运行：`./bazel-bin/cyber/examples/record`
-  * 测试结果：
+* 构建：`bazel build cyber/examples/…`
+* 运行：`./bazel-bin/cyber/examples/record`
+* 测试结果：
 
-```
+```text
 I1124 16:56:27.248200 15118 record.cc:64] [record] msg[0]-> channel name: /test/channel1; content: abc0; msg time: 888
 I1124 16:56:27.248227 15118 record.cc:64] [record] msg[1]-> channel name: /test/channel1; content: abc1; msg time: 889
 I1124 16:56:27.248239 15118 record.cc:64] [record] msg[2]-> channel name: /test/channel1; content: abc2; msg time: 890
@@ -970,9 +959,9 @@ I1124 16:56:27.250422 15118 record.cc:73] [record] static msg=================
 I1124 16:56:27.250434 15118 record.cc:74] [record] MSG validmsg:totalcount: 100:100
 ```
 
-## <a id="C++API词典">C++ API词典</a>
+## [C++ API词典](cyber-rt-api-tutorial.md) <a id="C++API&#x8BCD;&#x5178;"></a>
 
-### <a id="节点（Node）">节点（Node）API</a>
+### [节点（Node）API](cyber-rt-api-tutorial.md) <a id="&#x8282;&#x70B9;&#xFF08;Node&#xFF09;"></a>
 
 更多信息和样例参见[节点（Node）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
 
@@ -1006,7 +995,7 @@ auto CreateClient(const std::string& service_name)
     -> std::shared_ptr<service::Client<Request, Response>>;
 ```
 
-## <a id="写入者（Writer）">写入者（Writer）API</a>
+## [写入者（Writer）API](cyber-rt-api-tutorial.md) <a id="&#x5199;&#x5165;&#x8005;&#xFF08;Writer&#xFF09;"></a>
 
 更多信息及样例参见[写入者（Writer）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
 
@@ -1016,7 +1005,7 @@ auto CreateClient(const std::string& service_name)
 bool Write(const std::shared_ptr<MessageT>& message);
 ```
 
-## <a id="客户端（Client）">客户端（Client）API</a>
+## [客户端（Client）API](cyber-rt-api-tutorial.md) <a id="&#x5BA2;&#x6237;&#x7AEF;&#xFF08;Client&#xFF09;"></a>
 
 更多信息及样例参见[客户端（Client）](cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
 
@@ -1029,14 +1018,14 @@ SharedResponse SendRequest(const Request& request,
                            const std::chrono::seconds& timeout_s = std::chrono::seconds(5));
 ```
 
-## <a id="参数服务（Parameter）">参数服务（Parameter）API</a>
+## [参数服务（Parameter）API](cyber-rt-api-tutorial.md) <a id="&#x53C2;&#x6570;&#x670D;&#x52A1;&#xFF08;Parameter&#xFF09;"></a>
 
 用户进行参数相关操作的接口：
 
-  * 设置参数相关API
-  * 读取参数相关API
-  * 创建一个参数服务（ParameterService）来为其他节点提供参数服务相关APIs
-  * 创建一个参数客户端（ParameterClient）来使用其他节点提供的参数
+* 设置参数相关API
+* 读取参数相关API
+* 创建一个参数服务（ParameterService）来为其他节点提供参数服务相关APIs
+* 创建一个参数客户端（ParameterClient）来使用其他节点提供的参数
 
 更多信息及样例参见[参数服务（Parameter）](cyber-rt-api-tutorial.md#参数（Param）服务)
 
@@ -1105,7 +1094,7 @@ bool GetParameter(const std::string& param_name, Parameter* parameter);
 bool ListParameters(std::vector<Parameter>* parameters);
 ```
 
-## <a id="定时器（Timer）">定时器（Timer）API</a>
+## [定时器（Timer）API](cyber-rt-api-tutorial.md) <a id="&#x5B9A;&#x65F6;&#x5668;&#xFF08;Timer&#xFF09;"></a>
 
 可以设定定时器参数并调用start和stop接口来开始或停止定时器，更多信息及样例参见[定时器（Timer）](cyber-rt-api-tutorial.md#定时器（Timer）)
 
@@ -1119,7 +1108,7 @@ void Start();
 void Stop();
 ```
 
-## <a id="时间（Time）">时间（Time）API</a>
+## [时间（Time）API](cyber-rt-api-tutorial.md) <a id="&#x65F6;&#x95F4;&#xFF08;Time&#xFF09;"></a>
 
 更多信息及样例详见[时间（Time）](cyber-rt-api-tutorial.md#时间（Time）)
 
@@ -1143,7 +1132,7 @@ std::string ToString() const;
 bool IsZero() const;
 ```
 
-## <a id="持续时间（Duration）">持续时间（Duration）API</a>
+## [持续时间（Duration）API](cyber-rt-api-tutorial.md) <a id="&#x6301;&#x7EED;&#x65F6;&#x95F4;&#xFF08;Duration&#xFF09;"></a>
 
 间隔相关接口，用于指示时间间隔，能够初始化为特定的纳秒或秒
 
@@ -1163,7 +1152,7 @@ bool IsZero() const;
 void Sleep() const;
 ```
 
-## <a id="速率（Rate）">速率（Rate）API</a>
+## [速率（Rate）API](cyber-rt-api-tutorial.md) <a id="&#x901F;&#x7387;&#xFF08;Rate&#xFF09;"></a>
 
 频率接口通常用于初始化以特定频率初始化的对象后的睡眠频率时间
 
@@ -1179,7 +1168,7 @@ Duration CycleTime() const;
 Duration ExpectedCycleTime() const { return expected_cycle_time_; }
 ```
 
-## <a id="记录读取者（RecordReader）">记录读取者（RecordReader）API</a>
+## [记录读取者（RecordReader）API](cyber-rt-api-tutorial.md) <a id="&#x8BB0;&#x5F55;&#x8BFB;&#x53D6;&#x8005;&#xFF08;RecordReader&#xFF09;"></a>
 
 读取数据记录文件的接口，用于读取数据记录文件中的消息及通道信息
 
@@ -1197,7 +1186,7 @@ std::shared_ptr<RawMessage> CurrentRawMessage();
 uint64_t CurrentMessageTime();
 ```
 
-## <a id="记录写入者（RecordWriter）">记录写入者（RecordWriter）API</a>
+## [记录写入者（RecordWriter）API](cyber-rt-api-tutorial.md) <a id="&#x8BB0;&#x5F55;&#x5199;&#x5165;&#x8005;&#xFF08;RecordWriter&#xFF09;"></a>
 
 写入数据记录文件的接口，用于记录消息及通道信息到数据记录文件中
 
@@ -1216,3 +1205,4 @@ bool WriteMessage(const std::string& channel_name, const MessageT& message,
 bool SetSizeOfFileSegmentation(uint64_t size_kilobytes);
 bool SetIntervalOfFileSegmentation(uint64_t time_sec);
 ```
+

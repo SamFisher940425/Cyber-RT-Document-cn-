@@ -9,31 +9,31 @@
 * 设置配置文件
 * 启动组件
 
-下面的示例演示了如何创建一个简单的组件，然后构建、运行并在屏幕上看到最终的输出。如果您想进一步探索阿波罗Cyber RT，您可以在***/apollo/cyber/examples/***目录下找到几个展示了如何使用框架的不同功能的示例。
+下面的示例演示了如何创建一个简单的组件，然后构建、运行并在屏幕上看到最终的输出。如果您想进一步探索阿波罗Cyber RT，您可以在_**/apollo/cyber/examples/**_目录下找到几个展示了如何使用框架的不同功能的示例。
 
-  **注:**示例必须在阿波罗的docker环境中运行，它是用Bazel编译的。
+**注:**示例必须在阿波罗的docker环境中运行，它是用Bazel编译的。
 
 ## 建立组件的文件结构
 
 请创建以下文件，假定在以下路径：
 
-***/apollo/cyber/example/common_component_example/***
+_**/apollo/cyber/example/common\_component\_example/**_
 
-  * 头文件：common_component_example.h
-  * 源文件：common_component_example.cc
-  * 构建文件：BUILD
-  * DAG依赖文件：common.dag
-  * 启动文件：common.launch
+* 头文件：common\_component\_example.h
+* 源文件：common\_component\_example.cc
+* 构建文件：BUILD
+* DAG依赖文件：common.dag
+* 启动文件：common.launch
 
 ## 实现组件的类
 
 ### 实现组件头文件
 
-实现***common_component_example.h***需要：
+实现_**common\_component\_example.h**_需要：
 
-  * 继承组件的类
-  * 定义您自己的***Init***和***Proc***函数，***Proc***函数需要指定其输入数据类型
-  * 使用***CYBER_REGISTER_COMPONENT***将您的组件类注册为全局类
+* 继承组件的类
+* 定义您自己的_**Init**_和_**Proc**_函数，_**Proc**_函数需要指定其输入数据类型
+* 使用_**CYBER\_REGISTER\_COMPONENT**_将您的组件类注册为全局类
 
 ```cpp
 #include <memory>
@@ -57,7 +57,7 @@ CYBER_REGISTER_COMPONENT(CommonComponentSample)
 
 ### 为示例组件实现源文件
 
-在***common_component_example.cc***中，***Init***函数和***Proc***函数需要被实现。
+在_**common\_component\_example.cc**_中，_**Init**_函数和_**Proc**_函数需要被实现。
 
 ```cpp
 #include "cyber/examples/common_component_example/common_component_example.h"
@@ -116,9 +116,9 @@ cpplint()
 
 要配置DAG依赖文件（common.dag），请指定以下项目：
 
-  * 通道名称（name）：用于数据的输入输出
-  * 库路径（component_library）：从组件类生成的库
-  * 类名称（class_name）：组件的类名称
+* 通道名称（name）：用于数据的输入输出
+* 库路径（component\_library）：从组件类生成的库
+* 类名称（class\_name）：组件的类名称
 
 ```cpp
 # Define all coms in DAG streaming.
@@ -143,9 +143,9 @@ component_config {
 
 要配置启动文件（common.launch），请指定以下项目：
 
-  * 组件名称
-  * 前面步骤中创建的DAG依赖文件
-  * 组件中运行的进程的名称
+* 组件名称
+* 前面步骤中创建的DAG依赖文件
+* 组件中运行的进程的名称
 
 ```cpp
 <cyber>
@@ -174,8 +174,11 @@ source setup.bash
 
 有两种方式启动组件：
 
-  * 通过启动文件来启动组件（推荐）：
-`cyber_launch start /apollo/cyber/examples/common_component_example/common.launch`
-  * 通过DAG依赖文件来启动组件：
-`mainboard -d /apollo/cyber/examples/common_component_example/common.dag`
+* 通过启动文件来启动组件（推荐）：
+
+  `cyber_launch start /apollo/cyber/examples/common_component_example/common.launch`
+
+* 通过DAG依赖文件来启动组件：
+
+  `mainboard -d /apollo/cyber/examples/common_component_example/common.dag`
 

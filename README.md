@@ -2,9 +2,11 @@
 description: 百度阿波罗（Apollo）Cyber-RT中文版文档。由爱好者私人翻译，允许任何非商用的转载。
 ---
 
-原文链接：[https://cyber-rt.readthedocs.io/en/latest/CyberRT_Python_API.html] (https://cyber-rt.readthedocs.io/en/latest/CyberRT_Python_API.html)
-
 # 介绍
+
+原文链接：[https://cyber-rt.readthedocs.io/en/latest/CyberRT\_Python\_API.html](https://cyber-rt.readthedocs.io/en/latest/CyberRT_Python_API.html)
+
+## 介绍
 
 阿波罗Cyber RT是一个特别为自动驾驶场景设计的开源、高性能的运行架构。在集中计算模型的基础上，它针对自动驾驶中高并发性、低延迟和高吞吐量进行了极大的优化。
 
@@ -25,41 +27,30 @@ description: 百度阿波罗（Apollo）Cyber-RT中文版文档。由爱好者�
   * 专为自动驾驶设计的编译模块
   * 即插即用的自动驾驶系统
 
-## 快速入门
+### 快速入门
 
 * [入门](quick-start/getting-started.md)
-
 * [Cyber RT 术语](quick-start/cyber-rt-terms.md)
-
 * [常见问答](quick-start/f.a.q..md)
 
-## 教程
+### 教程
 
 * [Cyber RT API 教程](tutorial/cyber-rt-api-tutorial.md)
-
 * [Python API 教程](tutorial/python-api-tutorial.md)
-
 * [阿波罗 Cyber RT 开发者工具](tutorial/apollo-cyber-rt-developer-tool.md)
+  * [cyber\_visualizer 工具](tutorial/apollo-cyber-rt-developer-tool.md#cyber_visualizer工具)
+  * [cyber\_monitor 工具](tutorial/apollo-cyber-rt-developer-tool.md#cyber_monitor工具)
+  * [用cyber\_monitor获得与UI界面类似的信息](tutorial/apollo-cyber-rt-developer-tool.md#用cyber_monitor获得与UI界面类似的信息)
+  * [cyber\_recorder 工具](tutorial/apollo-cyber-rt-developer-tool.md#cyber_recorder工具)
+  * [rosbag\_to\_record 工具](tutorial/apollo-cyber-rt-developer-tool.md#rosbag_to_record工具)
 
-  * [cyber_visualizer 工具](tutorial/apollo-cyber-rt-developer-tool.md#cyber_visualizer工具)
-
-  * [cyber_monitor 工具](tutorial/apollo-cyber-rt-developer-tool.md#cyber_monitor工具)
-
-  * [用cyber_monitor获得与UI界面类似的信息](tutorial/apollo-cyber-rt-developer-tool.md#用cyber_monitor获得与UI界面类似的信息)
-
-  * [cyber_recorder 工具](tutorial/apollo-cyber-rt-developer-tool.md#cyber_recorder工具)
-
-  * [rosbag_to_record 工具](tutorial/apollo-cyber-rt-developer-tool.md#rosbag_to_record工具)
-  
-## 高级话题
+### 高级话题
 
 * [在Docker环境中开发](advanced-topics/develop-inside-docker-environment.md)
-
 * [从阿波罗ROS移植指导](advanced-topics/migration-guide-from-apollo-ros.md)
 
-## API参考文档
+### API参考文档
 
 * [C++ API](api-reference/cpp-api.md)
-
 * [Python API](api-reference/python-api.md)
 

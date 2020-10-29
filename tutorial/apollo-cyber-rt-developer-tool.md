@@ -1,6 +1,6 @@
 # 阿波罗 Cyber RT 开发者工具
 
-阿波罗Cyber RT框架提供了一系列用于日常开发的有用工具，包括一个可视化工具***cyber_visualizer***和两个命令行工具***cyber_monitor***与***cyber_recorder***
+阿波罗Cyber RT框架提供了一系列用于日常开发的有用工具，包括一个可视化工具_**cyber\_visualizer**_和两个命令行工具_**cyber\_monitor**_与_**cyber\_recorder**_
 
 注：使用这些工具需要基于阿波罗Docker环境，请遵照阿波罗wiki进入正确的Docker容器
 
@@ -8,11 +8,11 @@
 
 `username@computername:~$: source /your-path-to-apollo-install-dir/cyber/setup.bash`
 
-## <a id="cyber_visualizer工具">cyber_visualizer 工具</a>
+## [cyber\_visualizer 工具](apollo-cyber-rt-developer-tool.md) <a id="cyber_visualizer&#x5DE5;&#x5177;"></a>
 
 ### 安装与运行
 
-***cyber_visualizer***是为了展示阿波罗Cyber RT中各通道数据的可视化工具
+_**cyber\_visualizer**_是为了展示阿波罗Cyber RT中各通道数据的可视化工具
 
 ```cpp
 username@computername:~$: source /your-path-to-apollo-install-dir/cyber/setup.bash
@@ -21,26 +21,26 @@ username@computername:~$: cyber_visualizer
 
 ### 与可视化工具交互
 
-* 在运行***cyber_visualizer***之后，您将看到以下界面：
+* 在运行_**cyber\_visualizer**_之后，您将看到以下界面：
 
-![Cyber_visualizer 界面1](/images/cyber_visualizer1.png)
+![Cyber\_visualizer &#x754C;&#x9762;1](../.gitbook/assets/cyber_visualizer1.png)
 
-* 在Cyber RT中，当数据流通过通道传输，所有通道的列表将会在***ChannelNames***中展示，如下图所示。例如，您可以看到Cyber RT的数据记录工具（cyber_recorder）在另一个终端中回放数据，***cyber_visualizer***将接收所有活动通道的信息（从回放数据中）并展示它们。
+* 在Cyber RT中，当数据流通过通道传输，所有通道的列表将会在_**ChannelNames**_中展示，如下图所示。例如，您可以看到Cyber RT的数据记录工具（cyber\_recorder）在另一个终端中回放数据，_**cyber\_visualizer**_将接收所有活动通道的信息（从回放数据中）并展示它们。
 
-![Cyber_visualizer 界面2](/images/cyber_visualizer2.png)
+![Cyber\_visualizer &#x754C;&#x9762;2](../.gitbook/assets/cyber_visualizer2.png)
 
-* 通过点击工具栏中的按钮，可以使能参考格线、显示点云、添加图像、或同时显示多相机图像。如果您启用了“显示网格（Show Grid）”选项，则可以通过双击***ChannelNames***下面的“网格颜色选项（Grid-Color）”来设置网格的颜色。默认的颜色是灰色。您也可以通过编辑“网格数量（CellCount）”的数值来调整参考网格的格子数量。对于点云或者图像，可以通过调整其***ChannelName***子选项来选择数据源通道，并且通过调整***Action***子选项来播放或停止响应通道的数据。如下图所示，底部区域三个相机通道的数据和顶部区域一个点云数据同时显示在界面上。
+* 通过点击工具栏中的按钮，可以使能参考格线、显示点云、添加图像、或同时显示多相机图像。如果您启用了“显示网格（Show Grid）”选项，则可以通过双击_**ChannelNames**_下面的“网格颜色选项（Grid-Color）”来设置网格的颜色。默认的颜色是灰色。您也可以通过编辑“网格数量（CellCount）”的数值来调整参考网格的格子数量。对于点云或者图像，可以通过调整其_**ChannelName**_子选项来选择数据源通道，并且通过调整_**Action**_子选项来播放或停止响应通道的数据。如下图所示，底部区域三个相机通道的数据和顶部区域一个点云数据同时显示在界面上。
 
-![Cyber_visualizer 界面3](/images/cyber_visualizer3.png)
+![Cyber\_visualizer &#x754C;&#x9762;3](../.gitbook/assets/cyber_visualizer3.png)
 
 * 如果要在三维点云场景中调整虚拟相机，可以在点云显示区域上点击鼠标右键。如下图所示，一个对话窗会弹出。
 
-![Cyber_visualizer 界面4](/images/cyber_visualizer4.png)
+![Cyber\_visualizer &#x754C;&#x9762;4](../.gitbook/assets/cyber_visualizer4.png)
 
 点云场景支持两种相机模式：自由模式（Free）和目标模式（Target）。（可以从上面弹出的对话窗口选择模式）
 
-  * 自由模式（Free）：在此种相机模式下，您可以通过按住鼠标左键或右键并拖动来改变相机的姿态。想要改变相机的俯仰角，您可以滚动鼠标滚轮。
-  * 目标模式（Target）：在此种相机模式下，您可以通过按住鼠标左键并拖动来改变相机的视场角，想要改变相机到观测点的距离（默认观测点的坐标是系统原点（0,0,0）），您可以滚动鼠标滚轮。
+* 自由模式（Free）：在此种相机模式下，您可以通过按住鼠标左键或右键并拖动来改变相机的姿态。想要改变相机的俯仰角，您可以滚动鼠标滚轮。
+* 目标模式（Target）：在此种相机模式下，您可以通过按住鼠标左键并拖动来改变相机的视场角，想要改变相机到观测点的距离（默认观测点的坐标是系统原点（0,0,0）），您可以滚动鼠标滚轮。
 
 您也可以在对话框中更改相机在点云场景中的观测状态来直接修改相机信息，“步距（Step）”选项设定的是对话框中的步距数值。
 
@@ -48,11 +48,11 @@ username@computername:~$: cyber_visualizer
 
 播放和暂停按钮：单机播放按钮，显示所有通道。单机暂停按钮时，所有频道都会在工具上停止显示。
 
-## <a id="cyber_monitor工具">cyber_monitor 工具</a>
+## [cyber\_monitor 工具](apollo-cyber-rt-developer-tool.md) <a id="cyber_monitor&#x5DE5;&#x5177;"></a>
 
 ### 安装与运行
 
-命令行工具***cyber_monitor***在终端中提供了阿波罗Cyber RT实时数据通道信息列表的清晰视图。
+命令行工具_**cyber\_monitor**_在终端中提供了阿波罗Cyber RT实时数据通道信息列表的清晰视图。
 
 ```cpp
 username@computername:~$: source /your-path-to-apollo-install-dir/cyber/setup.bash
@@ -63,25 +63,25 @@ username@computername:~$: cyber_monitor
 
 #### 显示帮助信息
 
-使用***-h***选项获得***cyber_monitor***的帮助信息
+使用_**-h**_选项获得_**cyber\_monitor**_的帮助信息
 
 `username@computername:~$: cyber_monitor -h`
 
 #### 指定通道
 
-使用***-c***选项，您可以让***cyber_monitor***仅监控一个指定的通道，例如：
+使用_**-c**_选项，您可以让_**cyber\_monitor**_仅监控一个指定的通道，例如：
 
 `username@computername:~$: cyber_monitor -c ChannelName`
 
-## <a id="用cyber_monitor获得与UI界面类似的信息">用cyber_monitor获得与UI界面类似的信息</a>
+## [用cyber\_monitor获得与UI界面类似的信息](apollo-cyber-rt-developer-tool.md) <a id="&#x7528;cyber_monitor&#x83B7;&#x5F97;&#x4E0E;UI&#x754C;&#x9762;&#x7C7B;&#x4F3C;&#x7684;&#x4FE1;&#x606F;"></a>
 
-启动命令行工具后，您会发现它类似于***cyber_visualizer***。它通过拓扑自动手机所有通道的信息，并将它们显示在两列（通道名称、通道数据类型）中。
+启动命令行工具后，您会发现它类似于_**cyber\_visualizer**_。它通过拓扑自动手机所有通道的信息，并将它们显示在两列（通道名称、通道数据类型）中。
 
 通道信息默认显示为红色。但如果有数据流通过一个通道，对应该通道的一行将显示为绿色。如下图所示：
 
-![Cyber_monitor 界面](/images/cyber_monitor.png)
+![Cyber\_monitor &#x754C;&#x9762;](../.gitbook/assets/cyber_monitor.png)
 
-### 与cyber_monitor交互
+### 与cyber\_monitor交互
 
 #### 常用命令
 
@@ -104,14 +104,11 @@ Enter key ----- Same as d key 与d键相同，进入高亮行
 
 #### 拓扑专有命令
 
-f | F ----- Display frame rate 显示帧率
-t | T ----- Display channel message type 显示消息格式
-Space ----- Close|Open channel (only valid for channels with data arrival; yellow color after channel is closed) 开关通道（只对接到数据的通道有效，通道关闭后呈黄色）
+f \| F ----- Display frame rate 显示帧率 t \| T ----- Display channel message type 显示消息格式 Space ----- Close\|Open channel \(only valid for channels with data arrival; yellow color after channel is closed\) 开关通道（只对接到数据的通道有效，通道关闭后呈黄色）
 
 #### 通道专有命令
 
-i | I ----- Display channel Reader and Writer information 显示通道的读取方与写入方的信息
-b | B ------ Display channel message content 显示通道消息内容
+i \| I ----- Display channel Reader and Writer information 显示通道的读取方与写入方的信息 b \| B ------ Display channel message content 显示通道消息内容
 
 #### 查看通道中重复数据字段
 
@@ -120,13 +117,13 @@ n | N ---- Repeat the next data in the domain 在域（domain）中重现下一�
 m | M ---- Repeat one data on the domain 在域（domain）中重现一个数据
 ```
 
-## <a id="cyber_recorder工具">cyber_recorder 工具</a>
+## [cyber\_recorder 工具](apollo-cyber-rt-developer-tool.md) <a id="cyber_recorder&#x5DE5;&#x5177;"></a>
 
-***cyber_recorder***是阿波罗Cyber RT提供的一种数据记录/回放工具，它提供了许多有用的功能，包括录制“数据记录(record)文件”、回放“数据记录(record)文件”、分割“数据记录(record)文件”、检查“数据记录(record)文件”的信息等等
+_**cyber\_recorder**_是阿波罗Cyber RT提供的一种数据记录/回放工具，它提供了许多有用的功能，包括录制“数据记录\(record\)文件”、回放“数据记录\(record\)文件”、分割“数据记录\(record\)文件”、检查“数据记录\(record\)文件”的信息等等
 
 ### 安装与运行
 
-运行cyber_recorder
+运行cyber\_recorder
 
 ```cpp
 $ source /your-path-to-apollo-install-dir/cyber/setup.bash
@@ -140,17 +137,17 @@ The cyber_recorder commands are:
     recover                            Recover an exist record. 修复（拼接）一个存在的记录
 ```
 
-### cyber_recorder 命令
+### cyber\_recorder 命令
 
-* 查看数据记录(record)文件的信息：
+* 查看数据记录\(record\)文件的信息：
 
 ```cpp
 $ cyber_recorder info -h
 usage: cyber_recorder info [options]
-	-h, --help				show help message 显示帮助信息
+    -h, --help                show help message 显示帮助信息
 ```
 
-* 录制一个数据记录(record)文件
+* 录制一个数据记录\(record\)文件
 
 ```cpp
 $ cyber_recorder record -h
@@ -163,26 +160,26 @@ usage: cyber_recorder record [options]
     -h, --help                         show help message 显示帮助信息
 ```
 
-* 回放数据记录(record)文件：
+* 回放数据记录\(record\)文件：
 
 ```cpp
 $ cyber_recorder play -h
 usage: cyber_recorder play [options]
-    -f, --file <file>			input record file 输入一个记录文件
-    -a, --all				play all 回放所有
-    -c, --white-channel <name>		only play the specified channel 只回放特定通道数据
-    -k, --black-channel <name>		not play the specified channel 不回放特定通道数据
-    -l, --loop				loop play 循环回放
-    -r, --rate <1.0>			multiply the play rate by FACTOR 以某倍率回放
-    -b, --begin <2018-07-01 00:00:00>	play the record begin at 从某处开始回放
-    -e, --end <2018-07-01 00:01:00>	play the record end at 从某处结束回放
-    -s, --start <seconds>		play started at n seconds 在n秒后开始回放
-    -d, --delay <seconds>		play delayed n seconds 回放在n秒后延迟
-    -p, --preload <seconds>		play after trying to preload n second(s) 尝试在预加载n秒后播放
-    -h, --help				show help message 显示帮助信息
+    -f, --file <file>            input record file 输入一个记录文件
+    -a, --all                play all 回放所有
+    -c, --white-channel <name>        only play the specified channel 只回放特定通道数据
+    -k, --black-channel <name>        not play the specified channel 不回放特定通道数据
+    -l, --loop                loop play 循环回放
+    -r, --rate <1.0>            multiply the play rate by FACTOR 以某倍率回放
+    -b, --begin <2018-07-01 00:00:00>    play the record begin at 从某处开始回放
+    -e, --end <2018-07-01 00:01:00>    play the record end at 从某处结束回放
+    -s, --start <seconds>        play started at n seconds 在n秒后开始回放
+    -d, --delay <seconds>        play delayed n seconds 回放在n秒后延迟
+    -p, --preload <seconds>        play after trying to preload n second(s) 尝试在预加载n秒后播放
+    -h, --help                show help message 显示帮助信息
 ```
 
-* 分割数据记录(record)文件：
+* 分割数据记录\(record\)文件：
 
 ```cpp
 $ cyber_recorder split -h
@@ -195,7 +192,7 @@ usage: cyber_recorder split [options]
     -e, --end <2018-07-01 01:00:00>    end at assigned time 从指定时间结束
 ```
 
-* 修复（拼接）数据记录(record)文件：
+* 修复（拼接）数据记录\(record\)文件：
 
 ```cpp
 $ cyber_recorder recover -h
@@ -204,9 +201,9 @@ usage: cyber_recorder recover [options]
     -o, --output <file>                output record file 输出记录文件
 ```
 
-### 使用cyber_recorder的样例
+### 使用cyber\_recorder的样例
 
-#### 查看数据记录(record)文件细节
+#### 查看数据记录\(record\)文件细节
 
 ```cpp
 $ cyber_recorder info demo.record
@@ -237,7 +234,7 @@ channel_info:   /apollo/localization/pose                             2000 messa
                 /apollo/monitor                                          3 messages : apollo.common.monitor.MonitorMessage
 ```
 
-#### 录制数据记录(record)文件
+#### 录制数据记录\(record\)文件
 
 ```cpp
 $ cyber_recorder record -a
@@ -245,7 +242,7 @@ $ cyber_recorder record -a
 ...
 ```
 
-#### 回放数据记录(record)文件
+#### 回放数据记录\(record\)文件
 
 ```cpp
 $ cyber_recorder play -f 20180720202307.record
@@ -256,9 +253,9 @@ Hit Ctrl+C to stop replay, or Space to pause.
 play finished. file: 20180720202307.record
 ```
 
-## <a id="rosbag_to_record工具">rosbag_to_record 工具</a>
+## [rosbag\_to\_record 工具](apollo-cyber-rt-developer-tool.md) <a id="rosbag_to_record&#x5DE5;&#x5177;"></a>
 
-***rosbag_to_record***是阿波罗Cyber RT提供的一个能够将rosbag文件转化为数据记录(record)文件的工具。
+_**rosbag\_to\_record**_是阿波罗Cyber RT提供的一个能够将rosbag文件转化为数据记录\(record\)文件的工具。
 
 目前这个工具支持以下通道：
 
@@ -294,7 +291,7 @@ play finished. file: 20180720202307.record
 
 ### 安装与运行
 
-运行 rosbag_to_record
+运行 rosbag\_to\_record
 
 ```cpp
 $ source /your-path-to-apollo-install-dir/cyber/setup.bash
@@ -305,7 +302,7 @@ Usage:
 
 ### 样例
 
-我们将阿波罗2.5的demo数据包转成了数据记录(record)文件格式
+我们将阿波罗2.5的demo数据包转成了数据记录\(record\)文件格式
 
 ```cpp
 $ rosbag_to_record demo_2.5.bag demo.record
