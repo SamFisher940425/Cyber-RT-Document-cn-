@@ -1,6 +1,6 @@
 # 阿波罗 Cyber RT 开发者工具
 
-阿波罗Cyber RT框架提供了一系列用于日常开发的有用工具，包括一个可视化工具_**cyber\_visualizer**_和两个命令行工具_**cyber\_monitor**_与_**cyber\_recorder**_
+阿波罗Cyber RT框架提供了一系列用于日常开发的有用工具，包括一个可视化工具**cyber\_visualizer**和两个命令行工具**cyber\_monitor**与**cyber\_recorder**
 
 注：使用这些工具需要基于阿波罗Docker环境，请遵照阿波罗wiki进入正确的Docker容器
 
@@ -12,7 +12,7 @@
 
 ### 安装与运行
 
-_**cyber\_visualizer**_是为了展示阿波罗Cyber RT中各通道数据的可视化工具
+ **cyber\_visualizer**是为了展示阿波罗Cyber RT中各通道数据的可视化工具
 
 ```cpp
 username@computername:~$: source /your-path-to-apollo-install-dir/cyber/setup.bash
@@ -21,15 +21,15 @@ username@computername:~$: cyber_visualizer
 
 ### 与可视化工具交互
 
-* 在运行_**cyber\_visualizer**_之后，您将看到以下界面：
+* 在运行**cyber\_visualizer**之后，您将看到以下界面：
 
 ![Cyber\_visualizer &#x754C;&#x9762;1](../.gitbook/assets/cyber_visualizer1.png)
 
-* 在Cyber RT中，当数据流通过通道传输，所有通道的列表将会在_**ChannelNames**_中展示，如下图所示。例如，您可以看到Cyber RT的数据记录工具（cyber\_recorder）在另一个终端中回放数据，_**cyber\_visualizer**_将接收所有活动通道的信息（从回放数据中）并展示它们。
+* 在Cyber RT中，当数据流通过通道传输，所有通道的列表将会在**ChannelNames**中展示，如下图所示。例如，您可以看到Cyber RT的数据记录工具（cyber\_recorder）在另一个终端中回放数据，**cyber\_visualizer**将接收所有活动通道的信息（从回放数据中）并展示它们。
 
 ![Cyber\_visualizer &#x754C;&#x9762;2](../.gitbook/assets/cyber_visualizer2.png)
 
-* 通过点击工具栏中的按钮，可以使能参考格线、显示点云、添加图像、或同时显示多相机图像。如果您启用了“显示网格（Show Grid）”选项，则可以通过双击_**ChannelNames**_下面的“网格颜色选项（Grid-Color）”来设置网格的颜色。默认的颜色是灰色。您也可以通过编辑“网格数量（CellCount）”的数值来调整参考网格的格子数量。对于点云或者图像，可以通过调整其_**ChannelName**_子选项来选择数据源通道，并且通过调整_**Action**_子选项来播放或停止响应通道的数据。如下图所示，底部区域三个相机通道的数据和顶部区域一个点云数据同时显示在界面上。
+* 通过点击工具栏中的按钮，可以使能参考格线、显示点云、添加图像、或同时显示多相机图像。如果您启用了“显示网格（Show Grid）”选项，则可以通过双击**ChannelNames**下面的“网格颜色选项（Grid-Color）”来设置网格的颜色。默认的颜色是灰色。您也可以通过编辑“网格数量（CellCount）”的数值来调整参考网格的格子数量。对于点云或者图像，可以通过调整其**ChannelName**子选项来选择数据源通道，并且通过调整**Action**子选项来播放或停止响应通道的数据。如下图所示，底部区域三个相机通道的数据和顶部区域一个点云数据同时显示在界面上。
 
 ![Cyber\_visualizer &#x754C;&#x9762;3](../.gitbook/assets/cyber_visualizer3.png)
 
@@ -52,7 +52,7 @@ username@computername:~$: cyber_visualizer
 
 ### 安装与运行
 
-命令行工具_**cyber\_monitor**_在终端中提供了阿波罗Cyber RT实时数据通道信息列表的清晰视图。
+命令行工具**cyber\_monitor**在终端中提供了阿波罗Cyber RT实时数据通道信息列表的清晰视图。
 
 ```cpp
 username@computername:~$: source /your-path-to-apollo-install-dir/cyber/setup.bash
@@ -63,19 +63,19 @@ username@computername:~$: cyber_monitor
 
 #### 显示帮助信息
 
-使用_**-h**_选项获得_**cyber\_monitor**_的帮助信息
+使用**-h**选项获得**cyber\_monitor**的帮助信息
 
 `username@computername:~$: cyber_monitor -h`
 
 #### 指定通道
 
-使用_**-c**_选项，您可以让_**cyber\_monitor**_仅监控一个指定的通道，例如：
+使用**-c**选项，您可以让**cyber\_monitor**仅监控一个指定的通道，例如：
 
 `username@computername:~$: cyber_monitor -c ChannelName`
 
 ## [用cyber\_monitor获得与UI界面类似的信息](apollo-cyber-rt-developer-tool.md) <a id="&#x7528;cyber_monitor&#x83B7;&#x5F97;&#x4E0E;UI&#x754C;&#x9762;&#x7C7B;&#x4F3C;&#x7684;&#x4FE1;&#x606F;"></a>
 
-启动命令行工具后，您会发现它类似于_**cyber\_visualizer**_。它通过拓扑自动手机所有通道的信息，并将它们显示在两列（通道名称、通道数据类型）中。
+启动命令行工具后，您会发现它类似于**cyber\_visualizer**。它通过拓扑自动手机所有通道的信息，并将它们显示在两列（通道名称、通道数据类型）中。
 
 通道信息默认显示为红色。但如果有数据流通过一个通道，对应该通道的一行将显示为绿色。如下图所示：
 
@@ -119,7 +119,7 @@ m | M ---- Repeat one data on the domain 在域（domain）中重现一个数据
 
 ## [cyber\_recorder 工具](apollo-cyber-rt-developer-tool.md) <a id="cyber_recorder&#x5DE5;&#x5177;"></a>
 
-_**cyber\_recorder**_是阿波罗Cyber RT提供的一种数据记录/回放工具，它提供了许多有用的功能，包括录制“数据记录\(record\)文件”、回放“数据记录\(record\)文件”、分割“数据记录\(record\)文件”、检查“数据记录\(record\)文件”的信息等等
+**cyber\_recorder**是阿波罗Cyber RT提供的一种数据记录/回放工具，它提供了许多有用的功能，包括录制“数据记录\(record\)文件”、回放“数据记录\(record\)文件”、分割“数据记录\(record\)文件”、检查“数据记录\(record\)文件”的信息等等
 
 ### 安装与运行
 
@@ -255,7 +255,7 @@ play finished. file: 20180720202307.record
 
 ## [rosbag\_to\_record 工具](apollo-cyber-rt-developer-tool.md) <a id="rosbag_to_record&#x5DE5;&#x5177;"></a>
 
-_**rosbag\_to\_record**_是阿波罗Cyber RT提供的一个能够将rosbag文件转化为数据记录\(record\)文件的工具。
+**rosbag\_to\_record**是阿波罗Cyber RT提供的一个能够将rosbag文件转化为数据记录\(record\)文件的工具。
 
 目前这个工具支持以下通道：
 
