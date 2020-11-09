@@ -9,7 +9,7 @@
 * 设置配置文件
 * 启动组件
 
-下面的示例演示了如何创建一个简单的组件，然后构建、运行并在屏幕上看到最终的输出。如果您想进一步探索阿波罗Cyber RT，您可以在_**/apollo/cyber/examples/**_目录下找到几个展示了如何使用框架的不同功能的示例。
+下面的示例演示了如何创建一个简单的组件，然后构建、运行并在屏幕上看到最终的输出。如果您想进一步探索阿波罗Cyber RT，您可以在**/apollo/cyber/examples/**目录下找到几个展示了如何使用框架的不同功能的示例。
 
 **注:**示例必须在阿波罗的docker环境中运行，它是用Bazel编译的。
 
@@ -29,11 +29,11 @@ _**/apollo/cyber/example/common\_component\_example/**_
 
 ### 实现组件头文件
 
-实现_**common\_component\_example.h**_需要：
+实现**common\_component\_example.h**需要：
 
 * 继承组件的类
-* 定义您自己的_**Init**_和_**Proc**_函数，_**Proc**_函数需要指定其输入数据类型
-* 使用_**CYBER\_REGISTER\_COMPONENT**_将您的组件类注册为全局类
+* 定义您自己的**Init**和**Proc**函数，**Proc**函数需要指定其输入数据类型
+* 使用**CYBER\_REGISTER\_COMPONENT**将您的组件类注册为全局类
 
 ```cpp
 #include <memory>
@@ -57,7 +57,7 @@ CYBER_REGISTER_COMPONENT(CommonComponentSample)
 
 ### 为示例组件实现源文件
 
-在_**common\_component\_example.cc**_中，_**Init**_函数和_**Proc**_函数需要被实现。
+在**common\_component\_example.cc**中，**Init**函数和**Proc**函数需要被实现。
 
 ```cpp
 #include "cyber/examples/common_component_example/common_component_example.h"
