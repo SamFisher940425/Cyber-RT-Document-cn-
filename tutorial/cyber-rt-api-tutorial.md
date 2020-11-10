@@ -4,7 +4,7 @@
 
 内容列表
 
-* [讲话者（Talker）和倾听者（Listener）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+* [讲述者（Talker）和倾听者（Listener）](cyber-rt-api-tutorial.md#讲述者（Talker）和倾听者（Listener）)
 * [服务端（Service）的创建与使用](cyber-rt-api-tutorial.md#服务端（Service）的创建与使用)
 * [参数（Param）服务](cyber-rt-api-tutorial.md#参数（Param）服务)
 * [记录（Log）API](cyber-rt-api-tutorial.md#记录（Log）API)
@@ -25,9 +25,9 @@
   * [记录读取者（RecordReader）](cyber-rt-api-tutorial.md#记录读取者（RecordReader）)
   * [记录写入者（RecordWriter）](cyber-rt-api-tutorial.md#记录写入者（RecordWriter）)
 
-## [讲话者（Talker）和倾听者（Listener）](cyber-rt-api-tutorial.md) <a id="&#x8BB2;&#x8BDD;&#x8005;&#xFF08;Talker&#xFF09;&#x548C;&#x503E;&#x542C;&#x8005;&#xFF08;Listener&#xFF09;"></a>
+## [讲述者（Talker）和倾听者（Listener）](cyber-rt-api-tutorial.md) <a id="&#x8BB2;&#x8BDD;&#x8005;&#xFF08;Talker&#xFF09;&#x548C;&#x503E;&#x542C;&#x8005;&#xFF08;Listener&#xFF09;"></a>
 
-Cyber RT API示例的第一部分是理解讲话者（Talker）和倾听者（Listener）样例。以下是样例中的三个基本概念：节点（基本单元）、读取者（读取消息的工具）和写入者（写入消息的工具）。
+Cyber RT API示例的第一部分是理解讲述者（Talker）和倾听者（Listener）样例。以下是样例中的三个基本概念：节点（基本单元）、读取者（读取消息的工具）和写入者（写入消息的工具）。
 
 ### 创建一个节点（Node）
 
@@ -89,9 +89,9 @@ auto CreateReader(const proto::RoleAttributes& role_attr,
 
 ### 示例代码
 
-译者注：讲话者-倾听者描述的是一种拓扑概念，常用作文件名；写入者-读取者描述的是实现函数，常用作函数名。
+译者注：讲述者-倾听者描述的是一种拓扑概念，常用作文件名；写入者-读取者描述的是实现函数，常用作函数名。
 
-#### 讲话者（cyber/example/talker.cc）
+#### 讲述者（cyber/example/talker.cc）
 
 ```cpp
 #include "cyber/cyber.h"
@@ -174,7 +174,7 @@ cc_binary(
 #### 构建与运行
 
 * 构建：bazel build cyber/examples/...
-* 在另一个终端中运行讲话者（Talker）/倾听者（Listener）：
+* 在另一个终端中运行讲述者（Talker）/倾听者（Listener）：
   * ./bazel-bin/cyber/examples/talker
   * ./bazel-bin/cyber/examples/listener
 * 测试结果：您将在倾听者（Listener）看到消息的打印输出
@@ -963,7 +963,7 @@ I1124 16:56:27.250434 15118 record.cc:74] [record] MSG validmsg:totalcount: 100:
 
 ### [节点（Node）API](cyber-rt-api-tutorial.md) <a id="&#x8282;&#x70B9;&#xFF08;Node&#xFF09;"></a>
 
-更多信息和样例参见[节点（Node）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+更多信息和样例参见[节点（Node）](cyber-rt-api-tutorial.md#讲述者（Talker）和倾听者（Listener）)
 
 ### API列表
 
@@ -997,7 +997,7 @@ auto CreateClient(const std::string& service_name)
 
 ## [写入者（Writer）API](cyber-rt-api-tutorial.md) <a id="&#x5199;&#x5165;&#x8005;&#xFF08;Writer&#xFF09;"></a>
 
-更多信息及样例参见[写入者（Writer）](cyber-rt-api-tutorial.md#讲话者（Talker）和倾听者（Listener）)
+更多信息及样例参见[写入者（Writer）](cyber-rt-api-tutorial.md#讲述者（Talker）和倾听者（Listener）)
 
 ### API列表
 
