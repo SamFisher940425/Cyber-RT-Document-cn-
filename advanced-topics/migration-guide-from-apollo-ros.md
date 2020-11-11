@@ -218,10 +218,10 @@ int main(int argc, char** argv) {
 ## 工具映射
 
 |  ROS  | Cyber RT |  Note  |
-|:————- |  :————-  | :————– |
+|:----- |  :-----  | :----- |
 | rosbag | cyber_recorder | data file |
 | scripts/diagnostics.sh | cyber_monitor | channel debug |
-| offline_lidar_visualizer_tool | cyber_visualizer |point cloud visualizer |
+| offline_lidar_visualizer_tool | cyber_visualizer | point cloud visualizer |
 
 ## ROS数据包移植
 
