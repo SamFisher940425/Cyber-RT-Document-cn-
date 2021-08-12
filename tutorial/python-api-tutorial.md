@@ -12,12 +12,12 @@ Cyber RT Python接口封装了对应的C++接口，其实现并未依赖第三�
 
 目前，Python接口包括：
 
-  * 通道信息的访问
-  * 服务器（Server）/客户端（Client）的通信
-  * 数据记录文件（Record）中信息的查询
-  * 从数据记录文件中读取，或写入数据记录文件
-  * 时间（Time）/持续时间（Duration）/速率（Rate）相关操作
-  * 计时器（Timer）
+* 通道信息的访问
+* 服务器（Server）/客户端（Client）的通信
+* 数据记录文件（Record）中信息的查询
+* 从数据记录文件中读取，或写入数据记录文件
+* 时间（Time）/持续时间（Duration）/速率（Rate）相关操作
+* 计时器（Timer）
 
 ### 3.1通道的读写
 
@@ -56,10 +56,10 @@ class Node:
                    i.e. fn(data, args)
         @args any: additional arguments to pass to the callback
         """
-	def create_client(self, name, request_data_type, response_data_type):
-	"""
-	"""
-	def create_service(self, name, req_data_type, res_data_type, callback, args=None):
+    def create_client(self, name, request_data_type, response_data_type):
+    """
+    """
+    def create_service(self, name, req_data_type, res_data_type, callback, args=None):
 
     def spin(self):
         """
@@ -104,23 +104,23 @@ class RecordReader(object):
         @param end_time:
         @return: generator of (message, data_type, timestamp)
         """
-	def get_messagenumber(self, channel_name):
+    def get_messagenumber(self, channel_name):
         """
         return message count.
         """
-	def get_messagetype(self, channel_name):
+    def get_messagetype(self, channel_name):
         """
         return message type.
         """
-	def get_protodesc(self, channel_name):
+    def get_protodesc(self, channel_name):
         """
         return message protodesc.
         """
-	def get_headerstring(self):
+    def get_headerstring(self):
         """
         return message header string.
         """
-	def reset(self):
+    def reset(self):
         """
         return reset.
         ""
@@ -137,20 +137,20 @@ class RecordWriter(object):
     """
     Class for cyber RecordWriter wrapper.
     """
-	def open(self, path):
+    def open(self, path):
         """
         open record file for write.
         """
-	def write_channel(self, channel_name, type_name, proto_desc):
+    def write_channel(self, channel_name, type_name, proto_desc):
         """
         writer channel by channelname,typename,protodesc
         """
-	def write_message(self, channel_name, data, time, raw = True):
+    def write_message(self, channel_name, data, time, raw = True):
         """
         writer msg:channelname,data,time,is data raw
         """
 
-	def set_size_fileseg(self, size_kilobytes):
+    def set_size_fileseg(self, size_kilobytes):
         """
         return filesegment size.
         """
@@ -180,7 +180,7 @@ class RecordWriter(object):
 
 ```python
 class Time(object):
-	@staticmethod
+    @staticmethod
     def now():
         time_now = Time(_CYBER_TIME.PyTime_now())
         return time_now
@@ -254,7 +254,6 @@ if __name__ == '__main__':
     cyber.init()
     test_listener_class()
     cyber.shutdown()
-
 ```
 
 ### 4.2写入到通道（cyber/python/examples/talker.py）

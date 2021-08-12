@@ -12,7 +12,7 @@
 
 ### 安装与运行
 
- **cyber\_visualizer**是为了展示阿波罗Cyber RT中各通道数据的可视化工具
+**cyber\_visualizer**是为了展示阿波罗Cyber RT中各通道数据的可视化工具
 
 ```cpp
 username@computername:~$: source /your-path-to-apollo-install-dir/cyber/setup.bash

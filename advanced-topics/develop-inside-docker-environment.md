@@ -26,8 +26,7 @@ Cyber RT官方Docker镜像是基于Ubuntu 18.04构建的，它提供了构建Cyb
 
 仅构建Cyber RT并测试：
 
-`./apollo.sh build_cyber
-bazel test cyber/...`
+`./apollo.sh build_cyber bazel test cyber/...`
 
 您应当在开发自己的工程前通过所有的测试
 
@@ -39,10 +38,9 @@ bazel test cyber/...`
 
 由于Docker在Driver PX平台上的一些限制，您需要在上面的过程后执行以下步骤
 
-首次运行cyber_into.sh后，进入Cyber RT容器，运行以下两条命令：
+首次运行cyber\_into.sh后，进入Cyber RT容器，运行以下两条命令：
 
-`/apollo/scripts/docker_adduser.sh
-su nvidia`
+`/apollo/scripts/docker_adduser.sh su nvidia`
 
 **退出时，请使用`ctrl+p ctrl+q`而不是`exit`**，否则您将丢失容器中运行的程序
 
@@ -52,18 +50,15 @@ su nvidia`
 
 为构建您自己的Docker镜像，在x86平台上请运行以下命令：
 
-`cd docker/build/
-./build_cyber.sh cyber.x86_64.dockerfile`
+`cd docker/build/ ./build_cyber.sh cyber.x86_64.dockerfile`
 
 ARM平台下：
 
-`cd docker/build/
-./build_cyber.sh cyber.aarch64.dockerfile`
+`cd docker/build/ ./build_cyber.sh cyber.aarch64.dockerfile`
 
 由于ARM平台的性能，为节省时间，您可以通过以下选项去下载一些预编译的包
 
-`cd docker/build/
-./build_cyber.sh cyber.aarch64.dockerfile download`
+`cd docker/build/ ./build_cyber.sh cyber.aarch64.dockerfile download`
 
 如果想要长时间保存Docker镜像，使用以下示例命令将镜像储存在您个人的Docker仓库中，使用`docker images`查看您自己的镜像名称
 

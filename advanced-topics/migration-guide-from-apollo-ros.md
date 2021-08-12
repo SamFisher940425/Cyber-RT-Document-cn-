@@ -8,7 +8,7 @@ ROS使用CMake作为其构建系统，而Cyber RT使用bazel。在ROS项目中�
 
 Cmake
 
-```cmake
+```text
 project(pb_msgs_example)
 add_proto_files(
   DIRECTORY proto
@@ -23,7 +23,7 @@ target_link_libraries(pb_listener ${catkin_LIBRARIES}  pb_msgs_example_proto)
 
 Bazel
 
-```
+```text
 cc_binary(
   name = "talker",
   srcs = ["talker.cc"],
@@ -48,7 +48,7 @@ cc_binary(
 
 为支持proto消息格式，Apollo ROS在`target_link_libraries`中定制了独立的段`add_proto_files`和`projectName_proto(pb_msgs_example_proto)`来以proto格式发送消息。在Cyber RT中定义proto消息，只需要在`deps`设定中添加带有`cc_proto_library`名称的目标proto文件路径，`cc_proto_library`已经在proto文件夹中的构建（BUILD）文件中建立
 
-```
+```text
 cc_proto_library(
   name = "examples_cc_proto",
   deps = [
@@ -71,22 +71,22 @@ proto_library(
 
 ### Apollo ROS
 
-  * CMakeLists.txt
-  * package.xml
-  * proto
-    * chatter.proto
-  * src
-    * listener.cpp
-    * talker.cpp
+* CMakeLists.txt
+* package.xml
+* proto
+  * chatter.proto
+* src
+  * listener.cpp
+  * talker.cpp
 
 ### Cyber RT
 
+* BUILD
+* listener.cc
+* talker.cc
+* proto
   * BUILD
-  * listener.cc
-  * talker.cc
-  * proto
-    * BUILD
-    * examples.proto (with chatter message)
+  * examples.proto \(with chatter message\)
 
 ## 更新源码
 
@@ -140,10 +140,10 @@ int main(int argc, char** argv) {
 
 从上面两个倾听者（Listener）示例代码中可以容易的看到，Cyber RT为开发者提供了一个从ROS移植来的与之非常相近的API
 
-  * `ros::init(argc, argv, "listener");` --> `apollo::cyber::Init(argv[0]);`
-  * `ros::NodeHandle n;` --> `auto listener_node = apollo::cyber::CreateNode("listener");`
-  * `ros::Subscriber pb_sub = n.subscribe("chatter", 1000, MessageCallback);` --> `auto listener = listener_node->CreateReader("channel/chatter", MessageCallback);`
-  * `ros::spin();` --> `apollo::cyber::WaitForShutdown();`
+* `ros::init(argc, argv, "listener");` --&gt; `apollo::cyber::Init(argv[0]);`
+* `ros::NodeHandle n;` --&gt; `auto listener_node = apollo::cyber::CreateNode("listener");`
+* `ros::Subscriber pb_sub = n.subscribe("chatter", 1000, MessageCallback);` --&gt; `auto listener = listener_node->CreateReader("channel/chatter", MessageCallback);`
+* `ros::spin();` --&gt; `apollo::cyber::WaitForShutdown();`
 
 注：Cyber RT中，一个倾听者（Listener）节点需要用`node->CreateReader<messageType>(channelName, callback)`从通道中读取数据
 
@@ -212,20 +212,20 @@ int main(int argc, char** argv) {
 
 大多数映射关系已经在上述示例中列出，其余的如下所示
 
-  * `ros::Publisher chatter_pub = n.advertise<pb_msgs::Chatter>("chatter", 1000);` –> `auto talker = talker_node->CreateWriter<Chatter>("channel/chatter");`
-  * `chatter_pub.publish(msg);` –> `talker->Write(msg);`
+* `ros::Publisher chatter_pub = n.advertise<pb_msgs::Chatter>("chatter", 1000);` –&gt; `auto talker = talker_node->CreateWriter<Chatter>("channel/chatter");`
+* `chatter_pub.publish(msg);` –&gt; `talker->Write(msg);`
 
 ## 工具映射
 
-|  ROS  | Cyber RT |  Note  |
-|:----- |  :-----  | :----- |
-| rosbag | cyber_recorder | data file |
-| scripts/diagnostics.sh | cyber_monitor | channel debug |
-| offline_lidar_visualizer_tool | cyber_visualizer | point cloud visualizer |
+| ROS | Cyber RT | Note |
+| :--- | :--- | :--- |
+| rosbag | cyber\_recorder | data file |
+| scripts/diagnostics.sh | cyber\_monitor | channel debug |
+| offline\_lidar\_visualizer\_tool | cyber\_visualizer | point cloud visualizer |
 
 ## ROS数据包移植
 
-Cyber RT中，数据记录从ROS bag变为Cyber record。Cyber RT为使用者提供了一个移植工具`rosbag_to_record`，其可以轻易的将Apollo 3.0以前的(ROS)数据文件迁移至Cyber RT中，示例如下
+Cyber RT中，数据记录从ROS bag变为Cyber record。Cyber RT为使用者提供了一个移植工具`rosbag_to_record`，其可以轻易的将Apollo 3.0以前的\(ROS\)数据文件迁移至Cyber RT中，示例如下
 
 `rosbag_to_record demo_3.0.bag demo_3.5.record`
 
