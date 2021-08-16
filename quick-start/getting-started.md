@@ -182,3 +182,29 @@ source setup.bash
 
   `mainboard -d /apollo/cyber/examples/common_component_example/common.dag`
 
+## 为​组件进程注入数据
+
+开启​另一个终端
+
+```cpp
+source cyber/setup.bash
+export GLOG_alsologtostderr=1
+/apollo/bazel-bin/cyber/examples/common_component_example/channel_test_writer
+```
+
+开启​第三个终端
+
+```cpp
+source cyber/setup.bash
+export GLOG_alsologtostderr=1
+/apollo/bazel-bin/cyber/examples/common_component_example/channel_prediction_writer
+```
+
+您将会​在第一个终端中看到类似下列输出
+
+```cpp
+I0331 16:49:34.736016 1774773 common_component_example.cc:25] [mainboard]Start common component Proc [1094] [766]
+I0331 16:49:35.069005 1774775 common_component_example.cc:25] [mainboard]Start common component Proc [1095] [767]
+I0331 16:49:35.402289 1774783 common_component_example.cc:25] [mainboard]Start common component Proc [1096] [768]
+```
+
